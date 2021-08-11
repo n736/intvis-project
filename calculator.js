@@ -5,7 +5,7 @@ class Calculator {
     this.height_cm = (height_ft * 12 + height_in) * 2.54; //double
 
     this.age = age; //int
-    this.sex = sex; //strings "Male" or "Female"
+    this.sex = sex; //strings "male" or "female"
 
     this.losing_weight = losing_weight; //bool
     this.act_lvl = act_lvl; // strings "None" "Some Days" "Most Days" "Every Day"
@@ -92,6 +92,7 @@ class Calculator {
     return sugar_per_day;
   }
 }
+module.exports = Calculator;
 
 const calc = new Calculator(155, 6, 2, 19, "male", false, "Most Days");
 console.log(calc.calories());

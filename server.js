@@ -1,7 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const foodapi = require('./foodapi.js');
-const calculator = require('./calculator.js');
+const Calculator = require('./calculator.js');
 
 const hostname = '127.0.0.1'
 const port = 80;
@@ -39,7 +39,7 @@ fs.readFile('./data/409777.json', null, function (error, data) {
   }
 })
 
-const calc = new calculator.Calculator(140, 5, 4, 19, "male", true, "None");
+const calc = new Calculator(140, 5, 4, 19, "male", true, "None");
 console.log(calc.calories());
 console.log(calc.carbs());
 console.log(calc.fats());
