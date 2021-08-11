@@ -24,7 +24,16 @@ server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
 
-
-
-console.log(JSON.stringify(foodapi.getMenuItem(424571)));
-foodapi.getMenuItem(424571)
+fs.readFile('./data/409777.json', null, function (error, data) {
+  if (error) {
+    console.log("409777.json not found");
+  } else {
+    let json = JSON.parse(data);
+    console.log(json.id);
+    console.log(json.title);
+    console.log(json.nutrition.calories);
+    console.log(json.nutrition.fat);
+    console.log(json.nutrition.carbs);
+    console.log(json.nutrition.protein);
+  }
+})
