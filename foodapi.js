@@ -7,8 +7,9 @@ module.exports = {
 const def_hostname = 'api.spoonacular.com';
 const def_port = 443;
 const id = 424571;
+
 function getMenuItem(id) {
-let result;
+    let result;
     const options = {
         hostname: def_hostname,
         port: def_port,
@@ -29,5 +30,3 @@ let result;
 
     return result;
 }
-  
-  
