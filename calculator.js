@@ -1,7 +1,7 @@
 class Calculator {
   constructor(weight_lb, height_ft, height_in, age, sex, losing_weight, act_lvl) {
     this.weight_g = weight_lb * 453.592; //double
-    this.weight_kg = weight_g / 1000; //double
+    this.weight_kg = this.weight_g / 1000; //double
 
     this.height_cm = (height_ft * 12 + height_in) * 2.54; //double
 
@@ -13,16 +13,16 @@ class Calculator {
   }
 
   //Calculate Daily Calorie Intake (In Calories)
-  calorie() {
+  calories() {
     let cals_per_day;
 
-    if (sex == "male") {
-      cals_per_day = 10 * weight_g + 6.25 * height_cm - 5 * age + 5;
+    if (this.sex == "male") {
+      cals_per_day = 10 * this.weight_g + 6.25 * this.height_cm - 5 * this.age + 5;
     } else {
-      cals_per_day = 10 * weight_g + 6.25 * height_cm - 5 * age - 161;
+      cals_per_day = 10 * this.weight_g + 6.25 * this.height_cm - 5 * this.age - 161;
     }
 
-    if (losing_weight) {
+    if (this.losing_weight) {
       cals_per_day = cals_per_day * 0.8;
     }
 
@@ -30,15 +30,15 @@ class Calculator {
   }
 
   //Calculate Daily Fat Intake (In Grams)
-  fat() {
+  fats() {
     let cals_of_fat, fat_per_day;
 
-    if (age <= 3) {
-      cals_of_fat = this.calorie() * 0.35;
-    } else if (4 <= age && age <= 18) {
-      cals_of_fat = this.calorie() * 0.3;
-    } else if (19 <= age) {
-      cals_of_fat = this.calorie() * 0.275
+    if (this.age <= 3) {
+      cals_of_fat = this.calories() * 0.35;
+    } else if (4 <= this.age && this.age <= 18) {
+      cals_of_fat = this.calories() * 0.3;
+    } else if (19 <= this.age) {
+      cals_of_fat = this.calories() * 0.275
     }
 
     //Convert cals to grams
@@ -52,9 +52,9 @@ class Calculator {
     let cals_of_carbs, carbs_per_day;
 
     if (this.losing_weight) {
-      cals_of_carbs = this.calorie() * 0.525;
+      cals_of_carbs = this.calories() * 0.525;
     } else {
-      cals_of_carbs = this.calorie() * 0.55;
+      cals_of_carbs = this.calories() * 0.55;
     }
 
     //Convert cals to grams
@@ -84,7 +84,7 @@ class Calculator {
   sugars() {
     let sugar_per_day;
 
-    if (male) {
+    if (this.sex == "male") {
       sugar_per_day = 37.5;
     } else {
       sugar_per_day = 25;
@@ -93,3 +93,10 @@ class Calculator {
     return sugar_per_day;
   }
 }
+
+const calc = new Calculator(140, 5, 4, 19, "male", true, "None");
+console.log(calc.calories());
+console.log(calc.carbs());
+console.log(calc.fats());
+console.log(calc.proteins());
+console.log(calc.sugars());
