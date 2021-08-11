@@ -8,7 +8,7 @@ class Calculator {
     this.sex = sex; //strings "male" or "female"
 
     this.losing_weight = losing_weight; //bool
-    this.act_lvl = act_lvl; // strings "None" "Some Days" "Most Days" "Every Day"
+    this.act_lvl = act_lvl; // strings "None" "Light" "Moderate" "Active" "Very Active" "Extreme"
   }
 
   //Calculate Daily Calorie Intake (In Calories)
@@ -17,8 +17,26 @@ class Calculator {
 
     if (this.sex == "male") {
       cals_per_day = 10 * this.weight_kg + 6.25 * this.height_cm - 5 * this.age + 5;
+      cals_per_day = cals_per_day + 13.397 * this.weight_kg + 4.799 * this.height_cm - 5.677 * this.age + 88.362;
+      cals_per_day = cals_per_day / 2;
     } else {
       cals_per_day = 10 * this.weight_kg + 6.25 * this.height_cm - 5 * this.age - 161;
+      cals_per_day = cals_per_day + 9.24 * this.weight_kg + 3.098 * this.height_cm - 4.330 * this.age + 447.593;
+      cals_per_day = cals_per_day / 2;
+    }
+
+    if( this.act_lvl == "None" ) {
+      cals_per_day = cals_per_day * 1.2;
+    } else if( this.act_lvl == "Light" ) {
+      cals_per_day = cals_per_day * 1.35
+    } else if( this.act_lvl == "Moderate" ) {
+      cals_per_day = cals_per_day * 1.45;
+    } else if( this.act_lvl == "Active") {
+      cals_per_day = cals_per_day * 1.53;
+    } else if( this.act_lvl == "Very Active" ) {
+      cals_per_day = cals_per_day * 1.7;
+    } else {
+      cals_per_day = cals_per_day * 1.9;
     }
 
     if (this.losing_weight) {
@@ -68,9 +86,9 @@ class Calculator {
 
     if (this.act_lvl == "None") {
       protein_per_day = 0.8 * this.weight_kg;
-    } else if (this.act_lvl == "Some Days") {
+    } else if (this.act_lvl == "Light") {
       protein_per_day = 1.13 * this.weight_kg;
-    } else if (this.act_lvl == "Most Days") {
+    } else if (this.act_lvl == "Active") {
       protein_per_day = 1.46 * this.weight_kg;
     } else {
       protein_per_day = 1.8 * this.weight_kg;
@@ -94,7 +112,7 @@ class Calculator {
 }
 module.exports = Calculator;
 
-const calc = new Calculator(155, 6, 2, 19, "male", false, "Most Days");
+const calc = new Calculator(130, 5, 4, 19, "male", false, "None");
 console.log(calc.calories());
 console.log(calc.carbs());
 console.log(calc.fats());
