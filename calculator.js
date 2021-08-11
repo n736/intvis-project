@@ -1,7 +1,6 @@
 class Calculator {
   constructor(weight_lb, height_ft, height_in, age, sex, losing_weight, act_lvl) {
-    this.weight_g = weight_lb * 453.592; //double
-    this.weight_kg = this.weight_g / 1000; //double
+    this.weight_kg = weight_lb * 453.592 / 1000.0; //double
 
     this.height_cm = (height_ft * 12 + height_in) * 2.54; //double
 
@@ -17,9 +16,9 @@ class Calculator {
     let cals_per_day;
 
     if (this.sex == "male") {
-      cals_per_day = 10 * this.weight_g + 6.25 * this.height_cm - 5 * this.age + 5;
+      cals_per_day = 10 * this.weight_kg + 6.25 * this.height_cm - 5 * this.age + 5;
     } else {
-      cals_per_day = 10 * this.weight_g + 6.25 * this.height_cm - 5 * this.age - 161;
+      cals_per_day = 10 * this.weight_kg + 6.25 * this.height_cm - 5 * this.age - 161;
     }
 
     if (this.losing_weight) {
@@ -94,7 +93,7 @@ class Calculator {
   }
 }
 
-const calc = new Calculator(140, 5, 4, 19, "male", true, "None");
+const calc = new Calculator(155, 6, 2, 19, "male", false, "Most Days");
 console.log(calc.calories());
 console.log(calc.carbs());
 console.log(calc.fats());
