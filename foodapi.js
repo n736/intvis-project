@@ -30,3 +30,7 @@ function getMenuItem(id) {
 
   return result;
 }
+
+function getMenu(menuName) {
+
+}

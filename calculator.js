@@ -5,7 +5,7 @@ class Calculator {
     this.height_cm = (height_ft * 12 + height_in) * 2.54; //double
 
     this.age = age; //int
-    this.sex = sex; //strings "Male" or "Female"
+    this.sex = sex; //strings "male" or "female"
 
     this.losing_weight = losing_weight; //bool
     this.act_lvl = act_lvl; // strings "None" "Light" "Moderate" "Active" "Very Active" "Extreme"
@@ -25,15 +25,15 @@ class Calculator {
       cals_per_day = cals_per_day / 2;
     }
 
-    if( this.act_lvl == "None" ) {
+    if (this.act_lvl == "None") {
       cals_per_day = cals_per_day * 1.2;
-    } else if( this.act_lvl == "Light" ) {
+    } else if (this.act_lvl == "Light") {
       cals_per_day = cals_per_day * 1.35
-    } else if( this.act_lvl == "Moderate" ) {
+    } else if (this.act_lvl == "Moderate") {
       cals_per_day = cals_per_day * 1.45;
-    } else if( this.act_lvl == "Active") {
+    } else if (this.act_lvl == "Active") {
       cals_per_day = cals_per_day * 1.53;
-    } else if( this.act_lvl == "Very Active" ) {
+    } else if (this.act_lvl == "Very Active") {
       cals_per_day = cals_per_day * 1.7;
     } else {
       cals_per_day = cals_per_day * 1.9;
@@ -118,6 +118,7 @@ class Calculator {
     return sugar_per_day;
   }
 }
+<<<<<<< HEAD
 
 const calc = new Calculator(275, 6, 8, 78, "male", false, "Moderate");
 console.log(calc.calories());
@@ -132,3 +133,6 @@ console.log(a.carbs());
 // console.log(a.fats());
 // console.log(a.proteins());
 // console.log(a.sugars());
+=======
+module.exports = Calculator;
+>>>>>>> 3cd1b201c6e0e228f1822e92d1c400fb1c3cfd51
