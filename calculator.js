@@ -40,7 +40,11 @@ class Calculator {
     }
 
     if (this.losing_weight) {
-      cals_per_day = cals_per_day * 0.8;
+      if(this.sex == "male") {
+        cals_per_day = cals_per_day * 0.8;
+      } else {
+        cals_per_day = cals_per_day * 0.75;
+      }
     }
 
     return cals_per_day;
@@ -69,9 +73,9 @@ class Calculator {
     let cals_of_carbs, carbs_per_day;
 
     if (this.losing_weight) {
-      cals_of_carbs = this.calories() * 0.525;
+      cals_of_carbs = this.calories() * 0.57;
     } else {
-      cals_of_carbs = this.calories() * 0.55;
+      cals_of_carbs = this.calories() * 0.6;
     }
 
     //Convert cals to grams
@@ -80,16 +84,20 @@ class Calculator {
     return carbs_per_day;
   }
 
-  //Calculate Proteins Per Day (In Grams)
+  //Calculate Proteins Per Day (In Grams)    "None" "Light" "Moderate" "Active" "Very Active" "Extreme"
   proteins() {
     let protein_per_day;
 
     if (this.act_lvl == "None") {
       protein_per_day = 0.8 * this.weight_kg;
     } else if (this.act_lvl == "Light") {
-      protein_per_day = 1.13 * this.weight_kg;
+      protein_per_day = 1 * this.weight_kg;
+    } else if (this.act_lvl == "Moderate") {
+      protein_per_day = 1.2 * this.weight_kg;
     } else if (this.act_lvl == "Active") {
-      protein_per_day = 1.46 * this.weight_kg;
+      protein_per_day = 1.4 * this.weight_kg;
+    } else if(this.act_lvl == "Very Active") {
+      protein_per_day = 1.6 * this.weight_kg;
     } else {
       protein_per_day = 1.8 * this.weight_kg;
     }
@@ -111,9 +119,16 @@ class Calculator {
   }
 }
 
-const calc = new Calculator(130, 5, 4, 19, "male", false, "None");
+const calc = new Calculator(275, 6, 8, 78, "male", false, "Moderate");
 console.log(calc.calories());
 console.log(calc.carbs());
-console.log(calc.fats());
-console.log(calc.proteins());
-console.log(calc.sugars());
+// console.log(calc.fats());
+// console.log(calc.proteins());
+// console.log(calc.sugars());
+
+const a = new Calculator(275, 6, 8, 78, "male", true, "Moderate");
+console.log(a.calories());
+console.log(a.carbs());
+// console.log(a.fats());
+// console.log(a.proteins());
+// console.log(a.sugars());
