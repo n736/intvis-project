@@ -17,7 +17,7 @@ class Calculator {
 
     if (this.sex == "male") {
       cals_per_day = 10 * this.weight_kg + 6.25 * this.height_cm - 5 * this.age + 5;
-      cals_per_day = cals_per_day + 13.397 * this.weight_kg + 4.799 * this.height_cm - 5.677 * this.age + 88.362;
+      cals_per_day = cals_per_day + 12.4 * this.weight_kg + 4.799 * this.height_cm - 5.677 * this.age + 88.362;
       cals_per_day = cals_per_day / 2;
     } else {
       cals_per_day = 10 * this.weight_kg + 6.25 * this.height_cm - 5 * this.age - 161;
@@ -34,17 +34,44 @@ class Calculator {
     } else if (this.act_lvl == "Active") {
       cals_per_day = cals_per_day * 1.53;
     } else if (this.act_lvl == "Very Active") {
-      cals_per_day = cals_per_day * 1.7;
+      cals_per_day = cals_per_day * 1.72;
     } else {
       cals_per_day = cals_per_day * 1.9;
     }
 
     if (this.losing_weight) {
       if(this.sex == "male") {
-        cals_per_day = cals_per_day * 0.8;
+        cals_per_day = cals_per_day * (0.7 + (0.01 * (this.weight_kg/12.5) ) );
+
+        if(this.act_lvl == "Light") {
+          cals_per_day = cals_per_day * 1.04
+        } else if(this.act_lvl == "Moderate") {
+          cals_per_day = cals_per_day * 1.06;
+        } else if(this.act_lvl == "Active") {
+          cals_per_day = cals_per_day * 1.07;
+        } else if(this.act_lvl == "Very Active") {
+          cals_per_day = cals_per_day * 1.09;
+        } else {
+          cals_per_day = cals_per_day * 1.11;
+        }
+
       } else {
-        cals_per_day = cals_per_day * 0.75;
+        cals_per_day = cals_per_day * (0.66 + (0.01 * (this.weight_kg/10) ) );
+
+        if(this.act_lvl == "Light") {
+          cals_per_day = cals_per_day * 1.04
+        } else if(this.act_lvl == "Moderate") {
+          cals_per_day = cals_per_day * 1.0675;
+        } else if(this.act_lvl == "Active") {
+          cals_per_day = cals_per_day * 1.0825;
+        } else if(this.act_lvl == "Very Active") {
+          cals_per_day = cals_per_day * 1.105;
+        } else {
+          cals_per_day = cals_per_day * 1.13;
+        }
       }
+
+
     }
 
     return cals_per_day;
@@ -118,21 +145,25 @@ class Calculator {
     return sugar_per_day;
   }
 }
-<<<<<<< HEAD
 
-const calc = new Calculator(275, 6, 8, 78, "male", false, "Moderate");
+let weight = 250;
+let feet = 5;
+let inches = 7;
+let age = 30;
+let sex = "female";
+let act_level = "Light"; // "None" "Light" "Moderate" "Active" "Very Active" "Extreme"
+
+const calc = new Calculator(weight, feet, inches, age, sex, false, act_level);
 console.log(calc.calories());
-console.log(calc.carbs());
+console.log((0.66 + (0.01 * (calc.weight_kg/10) ) ));
+// console.log(calc.carbs());
 // console.log(calc.fats());
 // console.log(calc.proteins());
 // console.log(calc.sugars());
 
-const a = new Calculator(275, 6, 8, 78, "male", true, "Moderate");
+const a = new Calculator(weight, feet, inches, age, sex, true, act_level);
 console.log(a.calories());
-console.log(a.carbs());
+// console.log(a.carbs());
 // console.log(a.fats());
 // console.log(a.proteins());
 // console.log(a.sugars());
-=======
-module.exports = Calculator;
->>>>>>> 3cd1b201c6e0e228f1822e92d1c400fb1c3cfd51
