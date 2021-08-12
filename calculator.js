@@ -25,15 +25,15 @@ class Calculator {
       cals_per_day = cals_per_day / 2;
     }
 
-    if( this.act_lvl == "None" ) {
+    if (this.act_lvl == "None") {
       cals_per_day = cals_per_day * 1.2;
-    } else if( this.act_lvl == "Light" ) {
+    } else if (this.act_lvl == "Light") {
       cals_per_day = cals_per_day * 1.35
-    } else if( this.act_lvl == "Moderate" ) {
+    } else if (this.act_lvl == "Moderate") {
       cals_per_day = cals_per_day * 1.45;
-    } else if( this.act_lvl == "Active") {
+    } else if (this.act_lvl == "Active") {
       cals_per_day = cals_per_day * 1.53;
-    } else if( this.act_lvl == "Very Active" ) {
+    } else if (this.act_lvl == "Very Active") {
       cals_per_day = cals_per_day * 1.7;
     } else {
       cals_per_day = cals_per_day * 1.9;
@@ -111,10 +111,3 @@ class Calculator {
   }
 }
 module.exports = Calculator;
-
-const calc = new Calculator(130, 5, 4, 19, "male", false, "None");
-console.log(calc.calories());
-console.log(calc.carbs());
-console.log(calc.fats());
-console.log(calc.proteins());
-console.log(calc.sugars());
