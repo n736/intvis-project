@@ -99,11 +99,7 @@ class Calculator {
   carbs() {
     let cals_of_carbs, carbs_per_day;
 
-    if (this.losing_weight) {
-      cals_of_carbs = this.calories() * 0.57;
-    } else {
-      cals_of_carbs = this.calories() * 0.6;
-    }
+    cals_of_carbs = this.calories() * 0.575;
 
     //Convert cals to grams
     carbs_per_day = cals_of_carbs / 4;
@@ -145,25 +141,3 @@ class Calculator {
     return sugar_per_day;
   }
 }
-
-let weight = 250;
-let feet = 5;
-let inches = 7;
-let age = 30;
-let sex = "female";
-let act_level = "Light"; // "None" "Light" "Moderate" "Active" "Very Active" "Extreme"
-
-const calc = new Calculator(weight, feet, inches, age, sex, false, act_level);
-console.log(calc.calories());
-console.log((0.66 + (0.01 * (calc.weight_kg/10) ) ));
-// console.log(calc.carbs());
-// console.log(calc.fats());
-// console.log(calc.proteins());
-// console.log(calc.sugars());
-
-const a = new Calculator(weight, feet, inches, age, sex, true, act_level);
-console.log(a.calories());
-// console.log(a.carbs());
-// console.log(a.fats());
-// console.log(a.proteins());
-// console.log(a.sugars());
