@@ -415,7 +415,7 @@ const nutrition = data["nutrition"];
 var svg = d3.select("svg");
 
 var img = svg.selectAll("image").data([0]).enter().append("svg:image").attr("href", "./data/pic.jpg")
-  .attr("width", 200).attr("height", 200).attr("x", 50).attr("y", 50);
+  .attr("width", 200).attr("height", 200).attr("x", 100).attr("y", 50);
 
 piechart("Calories", nutrition["calories"], 2000, 200, 500);
 piechart("Fats", gramsToInt(nutrition["fat"]), 75, 500, 150);
