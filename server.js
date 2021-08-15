@@ -6,7 +6,7 @@ const app = express();
 
 app.set('view engine', 'ejs');
 
-const foodapi = require('./foodapi.js');
+const foodapi = require('./public/foodapi.js');
 const {
   response
 } = require('express');
