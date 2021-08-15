@@ -1,46 +1,27 @@
-const http = require('http');
-const fs = require('fs');
+const express = require('express');
+const router = express.Router();
+var cors = require('cors')
+
+const app = express();
+
 const foodapi = require('./foodapi.js');
-const Calculator = require('./calculator.js');
 
 const hostname = '127.0.0.1'
 const port = 80;
 
-const server = http.createServer((request, response) => {
-  response.writeHead(200, {
-    'Content-Type': 'text/html'
-  });
-  fs.readFile('./index.html', null, function (error, data) {
-    if (error) {
-      response.writeHead(404);
-      response.write('Page not found');
-    } else {
-      response.write(data);
-    }
-    response.end();
-  })
+app.use(cors())
+app.use(express.static('public'));
+
+app.get('/', (request, response) => {
+  response.sendFile(__dirname + '/public/index.html');
+})
+
+app.post('/submit', (request, response) => {
+  var food = request.body;
+  console.log(`food: ${food}`);
+  response.end("good");
 });
 
-server.listen(port, hostname, () => {
+app.listen(port, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
-});
-
-// fs.readFile('./data/409777.json', null, function (error, data) {
-//   if (error) {
-//     console.log("409777.json not found");
-//   } else {
-//     let json = JSON.parse(data);
-//     console.log(json.id);
-//     console.log(json.title);
-//     console.log(json.nutrition.calories);
-//     console.log(json.nutrition.fat);
-//     console.log(json.nutrition.carbs);
-//     console.log(json.nutrition.protein);
-//   }
-// })
-
-// const calc = new Calculator(130, 5, 4, 19, "male", false, "None");
-// console.log(calc.calories());
-// console.log(calc.carbs());
-// console.log(calc.fats());
-// console.log(calc.proteins());
+})
