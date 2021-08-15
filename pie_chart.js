@@ -9,17 +9,17 @@ function piechart(type, food_value, daily_value, cx, cy) {
   var data = [food, excess];
 
 	var svg = d3.select("svg"),
-		width = 250,
-		height = 250,
+		width = 200,
+		height = 200,
 		radius = Math.min(width, height) / 2,
-		g = svg.append("g").attr("transform", "translate(" + width + "," + height + ")");
+		g = svg.append("g").attr("transform", "translate(" + cx + "," + cy + ")");
 		header = svg.append("text")
-				.attr("x", (width / 2))             
-				.attr("y", 20 )
-				.attr("text-anchor", "middle")  
-				.style("font-size", "16px") 
-				.style("text-decoration", "underline")  
-				.text("Value vs Date Graph");
+        .attr("x", cx)             
+        .attr("y", cy - height / 2 - 15)
+        .attr("text-anchor", "middle")
+				.attr("font-weight", 800)
+        .style("font-size", "22px")
+        .text("Daily " + type);
 
 
 	/* Common Colors For Food Types
@@ -65,15 +65,8 @@ function piechart(type, food_value, daily_value, cx, cy) {
     })
     .attr("d", arc);
 
-<<<<<<< HEAD
 	//Print the percentage value under the pie chart
 
 	
 	return 0;
-=======
-  //Print the percentage value under the pie chart
-
-
-  return 0;
->>>>>>> 75e2736577ac713bd5fbe3443661a578d7bba0c5
 }

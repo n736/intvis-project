@@ -17,11 +17,11 @@ d3.json(getURL(id), function (data) {
 
   var svg = d3.select("svg");
 
-  piechart("Calories", nutrition["calories"], 2000, 200, 500);
-  piechart("Fats", gramsToInt(nutrition["fat"]), 75, 300, 300);
-  piechart("Proteins", gramsToInt(nutrition["protein"]), 100, 500, 500);
-  piechart("Sugars", nutrition["nutrients"][11]["amount"], 40, 700, 700);
-  piechart("Carbs", gramsToInt(nutrition["carbs"]), 200, 900, 900);
+  piechart("Calories", nutrition["calories"], 2000, 250, 500);
+  piechart("Fats", gramsToInt(nutrition["fat"]), 75, 625, 175);
+  piechart("Proteins", gramsToInt(nutrition["protein"]), 100, 625, 500);
+  piechart("Sugars", nutrition["nutrients"][11]["amount"], 40, 1000, 175);
+  piechart("Carbohydrates", gramsToInt(nutrition["carbs"]), 200, 1000, 500);
 })
 
 function gramsToInt(grams) {
