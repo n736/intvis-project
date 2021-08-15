@@ -410,8 +410,10 @@ data = {
   "ingredientList": "Whole Grain Rolled Oats, Invert Sugar, Sugar, Whole Grain Rolled Wheat, Crisp Rice (Rice Flour, Sugar, Malt [Malted Barley and Corn Extract, Wheat Starch, Hydroxylated Soy Lecithin], Salt), Corn Syrup Solids, Crisp Rice (Rice Flour, Sugar, Barley Malt, Salt, Mono and Diglycerides), Nonfat Dry Milk, Glycerin, Honey, Sunflower Oil, Sorbitol, Water, Vegetable Oil (Palm Kernel and Palm Oil), Salt, Natural Flavor, Cocoa (Processed with Alkali), Cocoa Powder, Dry Whey, Soy Lecithin, Lactose, Tocopherols (Preservative), Vanilla Extract"
 }
 
+
+
 const nutrition = data["nutrition"];
-var img = svg.selectAll("image").data([0]).enter().append("svg:image").attr("href", "./data/pic.jpg")
+var img = d3.select("svg").selectAll("image").data([0]).enter().append("svg:image").attr("href", "./data/pic.jpg")
   .attr("width", 200).attr("height", 200).attr("x", 100).attr("y", 50);
 
 piechart("Calories", nutrition["calories"], 2000, 200, 500);
