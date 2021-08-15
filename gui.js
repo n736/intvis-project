@@ -412,11 +412,11 @@ data = {
 
 const nutrition = data["nutrition"];
 
-  piechart("Calories", nutrition["calories"], 2000, 250, 500);
-  piechart("Fats", gramsToInt(nutrition["fat"]), 75, 625, 175);
-  piechart("Proteins", gramsToInt(nutrition["protein"]), 100, 625, 500);
-  piechart("Sugars", nutrition["nutrients"][11]["amount"], 40, 1000, 175);
-  piechart("Carbohydrates", gramsToInt(nutrition["carbs"]), 200, 1000, 500);
+  piechart("Calories", nutrition["calories"], 2000, 250, 515);
+  piechart("Fats", gramsToInt(nutrition["fat"]), 75, 625, 160);
+  piechart("Proteins", gramsToInt(nutrition["protein"]), 100, 625, 515);
+  piechart("Sugars", nutrition["nutrients"][11]["amount"], 40, 1000, 160);
+  piechart("Carbohydrates", gramsToInt(nutrition["carbs"]), 200, 1000, 515);
 
 
 function gramsToInt(grams) {

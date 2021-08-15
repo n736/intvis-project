@@ -18,8 +18,27 @@ function piechart(type, food_value, daily_value, cx, cy) {
         .attr("y", cy - height / 2 - 15)
         .attr("text-anchor", "middle")
 				.attr("font-weight", 800)
+				.attr("font-family", "Arial")
         .style("font-size", "22px")
-        .text("Daily " + type);
+        .text(type);
+		
+		tail = svg.append("text")
+        .attr("x", cx)             
+        .attr("y", cy + height / 2 + 30)
+        .attr("text-anchor", "middle")
+				.attr("font-weight", 800)
+				.attr("font-family", "Arial")
+        .style("font-size", "22px")
+        .text( ((food / per_day) * 100).toFixed(2) + "% of Daily");
+
+			tail2 = svg.append("text")
+        .attr("x", cx)             
+        .attr("y", cy + height / 2 + 55)
+        .attr("text-anchor", "middle")
+				.attr("font-weight", 800)
+				.attr("font-family", "Arial")
+        .style("font-size", "22px")
+        .text( "Recommended " + type);
 
 
 	/* Common Colors For Food Types
