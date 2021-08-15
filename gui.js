@@ -410,26 +410,15 @@ data = {
   "ingredientList": "Whole Grain Rolled Oats, Invert Sugar, Sugar, Whole Grain Rolled Wheat, Crisp Rice (Rice Flour, Sugar, Malt [Malted Barley and Corn Extract, Wheat Starch, Hydroxylated Soy Lecithin], Salt), Corn Syrup Solids, Crisp Rice (Rice Flour, Sugar, Barley Malt, Salt, Mono and Diglycerides), Nonfat Dry Milk, Glycerin, Honey, Sunflower Oil, Sorbitol, Water, Vegetable Oil (Palm Kernel and Palm Oil), Salt, Natural Flavor, Cocoa (Processed with Alkali), Cocoa Powder, Dry Whey, Soy Lecithin, Lactose, Tocopherols (Preservative), Vanilla Extract"
 }
 
-
-<<<<<<< HEAD
-  piechart("Calories", nutrition["calories"], 2000, 250, 515);
-  piechart("Fats", gramsToInt(nutrition["fat"]), 75, 625, 160);
-  piechart("Proteins", gramsToInt(nutrition["protein"]), 100, 625, 515);
-  piechart("Sugars", nutrition["nutrients"][11]["amount"], 40, 1000, 160);
-  piechart("Carbohydrates", gramsToInt(nutrition["carbs"]), 200, 1000, 515);
-=======
->>>>>>> 5ce821ced66667fa95645e1bd36c3ca748d3ec1b
-
 const nutrition = data["nutrition"];
 var img = d3.select("svg").selectAll("image").data([0]).enter().append("svg:image").attr("href", "./data/pic.jpg")
   .attr("width", 200).attr("height", 200).attr("x", 100).attr("y", 50);
 
-piechart("Calories", nutrition["calories"], 2000, 200, 500);
-piechart("Fats", gramsToInt(nutrition["fat"]), 75, 500, 150);
-piechart("Proteins", gramsToInt(nutrition["protein"]), 100, 500, 500);
-piechart("Sugars", nutrition["nutrients"][11]["amount"], 40, 850, 150);
-piechart("Carbs", gramsToInt(nutrition["carbs"]), 200, 850, 500);
-// })
+piechart("Calories", nutrition["calories"], 2000, 250, 515);
+piechart("Fats", gramsToInt(nutrition["fat"]), 75, 625, 160);
+piechart("Proteins", gramsToInt(nutrition["protein"]), 100, 625, 515);
+piechart("Sugars", nutrition["nutrients"][11]["amount"], 40, 1000, 160);
+piechart("Carbohydrates", gramsToInt(nutrition["carbs"]), 200, 1000, 515);
 
 function gramsToInt(grams) {
   return Number(grams.substr(0, grams.length - 1));
