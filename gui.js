@@ -417,7 +417,7 @@ const nutrition = data["nutrition"];
   piechart("Proteins", gramsToInt(nutrition["protein"]), 100, 625, 500);
   piechart("Sugars", nutrition["nutrients"][11]["amount"], 40, 1000, 175);
   piechart("Carbohydrates", gramsToInt(nutrition["carbs"]), 200, 1000, 500);
-})
+
 
 function gramsToInt(grams) {
   return Number(grams.substr(0, grams.length - 1));
