@@ -411,9 +411,6 @@ data = {
 }
 
 const nutrition = data["nutrition"];
-
-var svg = d3.select("svg");
-
 var img = svg.selectAll("image").data([0]).enter().append("svg:image").attr("href", "./data/pic.jpg")
   .attr("width", 200).attr("height", 200).attr("x", 100).attr("y", 50);
 

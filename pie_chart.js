@@ -8,30 +8,38 @@ function piechart(type, food_value, daily_value, cx, cy) {
 
   var data = [food, excess];
 
-  var svg = d3.select("svg"),
-    width = 200,
-    height = 200,
-    radius = Math.min(width, height) / 2,
-    g = svg.append("g").attr("transform", "translate(" + cx + "," + cy + ")");
+	var svg = d3.select("svg"),
+		width = 200,
+		height = 200,
+		radius = Math.min(width, height) / 2,
+		g = svg.append("g").attr("transform", "translate(" + cx + "," + cy + ")");
+		header = svg.append("text")
+        .attr("x", cx)             
+        .attr("y", cy - height / 2 - 15)
+        .attr("text-anchor", "middle")
+				.attr("font-weight", 800)
+        .style("font-size", "22px")
+        .text("Daily " + type);
 
 
-  /* Common Colors For Food Types
-  Calories : #5C4EB1
-  Carbohydrates : '#5C4EB1'
-  Proteins : #D04125
-  Fats : #DA8D2A
-  Sugars : #D7DF26
-  Background : #DED9D3 */
-  let primary = '#5C4EB1';
-  if (type == "Carbs") {
-    primary = '#2DAA43'
-  } else if (type == "Proteins") {
-    primary = '#D04125';
-  } else if (type == "Fats") {
-    primary = '#DA8D2A';
-  } else if (type == "Sugars") {
-    primary = '#6BD1C2';
-  }
+	/* Common Colors For Food Types
+	Calories : #5C4EB1
+	Carbohydrates : '#2DAA43'
+	Proteins : #D04125
+	Fats : #DA8D2A
+	Sugars : #6BD1C2
+	Background : #DED9D3 */
+
+	let primary = '#5C4EB1';
+	if(type == "Carbohydrates") {
+		primary = '#2DAA43'
+	} else if(type == "Proteins") {
+		primary = '#D04125';
+	} else if(type == "Fats") {
+		primary = '#DA8D2A';
+	} else if(type == "Sugars") {
+		primary = '#6BD1C2';
+	}
 
   var color = d3.scaleOrdinal([primary, '#DED9D3']);
 
@@ -57,8 +65,8 @@ function piechart(type, food_value, daily_value, cx, cy) {
     })
     .attr("d", arc);
 
-  //Print the percentage value under the pie chart
+	//Print the percentage value under the pie chart
 
-
-  return 0;
+	
+	return 0;
 }
