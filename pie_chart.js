@@ -13,25 +13,32 @@ function piechart(type, food_value, daily_value) {
 		height = 250,
 		radius = Math.min(width, height) / 2,
 		g = svg.append("g").attr("transform", "translate(" + width + "," + height + ")");
+		header = svg.append("text")
+				.attr("x", (width / 2))             
+				.attr("y", 20 )
+				.attr("text-anchor", "middle")  
+				.style("font-size", "16px") 
+				.style("text-decoration", "underline")  
+				.text("Value vs Date Graph");
 
 
 	/* Common Colors For Food Types
 	Calories : #5C4EB1
-	Carbohydrates : '#5C4EB1'
+	Carbohydrates : '#2DAA43'
 	Proteins : #D04125
 	Fats : #DA8D2A
-	Sugars : #D7DF26
+	Sugars : #6BD1C2
 	Background : #DED9D3 */
 
 	let primary = '#5C4EB1';
 	if(type == "Carbohydrates") {
-		primary = '#5C4EB1'
+		primary = '#2DAA43'
 	} else if(type == "Proteins") {
 		primary = '#D04125';
 	} else if(type == "Fats") {
 		primary = '#DA8D2A';
 	} else if(type == "Sugars") {
-		primary = '#D7DF26';
+		primary = '#6BD1C2';
 	}
 
 	var color = d3.scaleOrdinal([primary, '#DED9D3']);
@@ -59,7 +66,7 @@ function piechart(type, food_value, daily_value) {
 		.attr("d", arc);
 
 	//Print the percentage value under the pie chart
-	
+
 	
 	return 0;
 }
