@@ -1,12 +1,18 @@
 const https = require('https');
 
 module.exports = {
-  getMenuItem
+  getMenuItem,
+  getURL
 }
 
-const def_hostname = 'api.spoonacular.com';
-const def_port = 443;
+const hostname = 'api.spoonacular.com';
+const port = 443;
 const apiKey = 'd7ac59ee3c654bf7b4d681e2ac11ffad';
+
+function getURL(id) {
+  let path = `/food/menuItems/${id}?apiKey=${apiKey}`
+  return `https://${hostname}${path}`;
+}
 
 function getMenuItem(id) {
   let result;
