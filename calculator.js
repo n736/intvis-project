@@ -138,7 +138,7 @@ class Calculator {
       sugar_per_day = 25;
     }
 
-    sugar_per_day = sugar_per_day + (this.calories() / 4) * 0.09;
+    sugar_per_day = sugar_per_day + (this.calories() / 4) * 0.05;
     sugar_per_day = sugar_per_day / 2;
 
     return sugar_per_day;
