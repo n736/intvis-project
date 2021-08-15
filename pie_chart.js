@@ -1,12 +1,12 @@
-function piechart(type, food_value, daily_value) {
-	// Amount in the food goes here
-	let food = food_value;
-	//Amount per day goes here
-	let per_day = daily_value;
-	//Ensure our Pie Chart looks right
-	let excess = per_day - food;
+function piechart(type, food_value, daily_value, cx, cy) {
+  // Amount in the food goes here
+  let food = food_value;
+  //Amount per day goes here
+  let per_day = daily_value;
+  //Ensure our Pie Chart looks right
+  let excess = per_day - food;
 
-	var data = [food, excess];
+  var data = [food, excess];
 
 	var svg = d3.select("svg"),
 		width = 250,
@@ -41,32 +41,39 @@ function piechart(type, food_value, daily_value) {
 		primary = '#6BD1C2';
 	}
 
-	var color = d3.scaleOrdinal([primary, '#DED9D3']);
+  var color = d3.scaleOrdinal([primary, '#DED9D3']);
 
-	// Generate the pie
-	var pie = d3.pie();
+  // Generate the pie
+  var pie = d3.pie();
 
-	// Generate the arcs
-	var arc = d3.arc()
-				.innerRadius(0)
-				.outerRadius(radius);
+  // Generate the arcs
+  var arc = d3.arc()
+    .innerRadius(0)
+    .outerRadius(radius);
 
-	//Generate groups
-	var arcs = g.selectAll("arc")
-				.data(pie(data))
-				.enter()
-				.append("g")
-				.attr("class", "arc")
+  //Generate groups
+  var arcs = g.selectAll("arc")
+    .data(pie(data))
+    .enter()
+    .append("g")
+    .attr("class", "arc")
 
-	//Draw arc paths
-	arcs.append("path")
-		.attr("fill", function(d, i) {
-			return color(i);
-		})
-		.attr("d", arc);
+  //Draw arc paths
+  arcs.append("path")
+    .attr("fill", function (d, i) {
+      return color(i);
+    })
+    .attr("d", arc);
 
+<<<<<<< HEAD
 	//Print the percentage value under the pie chart
 
 	
 	return 0;
+=======
+  //Print the percentage value under the pie chart
+
+
+  return 0;
+>>>>>>> 75e2736577ac713bd5fbe3443661a578d7bba0c5
 }
