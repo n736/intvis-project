@@ -36,14 +36,16 @@
   <br>
   <div class="row" id="calc">
     <div class="column">
-      <label for="heightft">Height (ft): </label>
+      <label for="height">Height: </label>
       <input type="text" id="heightft" name="heightft" maxlength=1 style="width: 9px">
-      <label for="heightin">(in): </label>
-      <input type="text" id="heightin" name="heightin" maxlength=2 style="width: 18px"><br><br>
+      <label for="heightft">ft</label>
+      <input type="text" id="heightin" name="heightin" maxlength=2 style="width: 18px">
+      <label for="heightin">in</label><br><br>
       <label for="weight">Weight: </label>
-      <input type="text" id="weight" name="weight"><br><br>
+      <input type="text" id="weight" name="weight" maxlength=4 style="width: 36px">
+      <label for="weightlbs">lbs</label><br><br>
       <label for="age">Age: </label>
-      <input type="text" id="age" name="age">
+      <input type="text" id="age" maxlength=3 name="age" style="width: 27px">
     </div>
     <div class="column">
       <label for="sex">Sex: </label><br>
@@ -71,6 +73,9 @@
       <label for="Very Active">Very Active</label><br>
       <input type="radio" id="Extreme" name="actlvl" value="Extreme">
       <label for="Extreme">Extreme</label><br><br>
+    </div>
+    <div class="column" id="button_column">
+      <button id="button">See My Stats</button>
     </div>
   </div>
 

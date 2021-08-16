@@ -61,7 +61,7 @@ d3.json(getURL(id), function (data) {
   stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 750, 200));
 
 
-  var rect = d3.select("body").append("button")
+  d3.select("#button")
     // .attr("x", 1200).attr("y", 100)
     // .attr("width", 100).attr("height", 100)
     // .attr("fill", "black")
