@@ -84,8 +84,5 @@ function piechart(type, food_value, daily_value, cx, cy) {
     })
     .attr("d", arc);
 
-  //Print the percentage value under the pie chart
-
-
   return g;
 }
