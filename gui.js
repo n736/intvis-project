@@ -52,10 +52,10 @@ d3.json(getURL(id), function (data) {
 
   var texts = [];
 
-  var rect = svg.append("rect")
-    .attr("x", 1200).attr("y", 100)
-    .attr("width", 100).attr("height", 100)
-    .attr("fill", "black")
+  var rect = d3.select("body").append("button")
+    // .attr("x", 1200).attr("y", 100)
+    // .attr("width", 100).attr("height", 100)
+    // .attr("fill", "black")
     .on("click", () => {
       state = updateState();
       pies.forEach(pie => {
