@@ -50,7 +50,8 @@ pies.push(piechart("Proteins", gramsToInt(nutrition["protein"]), 100, 625, 515))
 pies.push(piechart("Sugars", nutrition["nutrients"][11]["amount"], 40, 1000, 160));
 pies.push(piechart("Carbohydrates", gramsToInt(nutrition["carbs"]), 200, 1000, 515));
 
-var texts = [];
+var stats = [];
+
 
 var state = 6;
 var rect = svg.append("rect").on("click", function () {
