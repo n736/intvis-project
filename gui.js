@@ -429,10 +429,10 @@ var state = 6;
 var rect = svg.append("rect").on("click", function () {
   state = updateState();
   pies.forEach(pie => {
-    pie.transition().attr("opacity", state == 8 ? 1 : 0)
+    pie.attr("opacity", state == 8 ? 1 : 0)
   })
   texts.forEach(pie => {
-    pie.transition().attr("opacity", state == 6 ? 1 : 0)
+    pie.attr("opacity", state == 6 ? 1 : 0)
   })
 });
 
