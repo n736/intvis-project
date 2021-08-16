@@ -13,7 +13,7 @@ const id = 409777;
 
 //   console.log(data);
 
-data = {
+const data = {
   "id": 409777,
   "title": "Gatorade Prime Fuel Bar Peanut Butter Chocolate",
   "price": 0.0,
@@ -410,6 +410,8 @@ data = {
   "ingredientList": "Whole Grain Rolled Oats, Invert Sugar, Sugar, Whole Grain Rolled Wheat, Crisp Rice (Rice Flour, Sugar, Malt [Malted Barley and Corn Extract, Wheat Starch, Hydroxylated Soy Lecithin], Salt), Corn Syrup Solids, Crisp Rice (Rice Flour, Sugar, Barley Malt, Salt, Mono and Diglycerides), Nonfat Dry Milk, Glycerin, Honey, Sunflower Oil, Sorbitol, Water, Vegetable Oil (Palm Kernel and Palm Oil), Salt, Natural Flavor, Cocoa (Processed with Alkali), Cocoa Powder, Dry Whey, Soy Lecithin, Lactose, Tocopherols (Preservative), Vanilla Extract"
 }
 
+var svg = d3.select("svg");
+
 const nutrition = data["nutrition"];
 
 var img_bck = d3.select("svg").append('rect')
@@ -438,12 +440,30 @@ var img_name = d3.select("svg").append("text")
   .text( data["title"].substr(0, 28) )
 
 
-piechart("Calories", nutrition["calories"], 2000, 250, 515);
-piechart("Fats", gramsToInt(nutrition["fat"]), 75, 625, 160);
-piechart("Proteins", gramsToInt(nutrition["protein"]), 100, 625, 515);
-piechart("Sugars", nutrition["nutrients"][11]["amount"], 40, 1000, 160);
-piechart("Carbohydrates", gramsToInt(nutrition["carbs"]), 200, 1000, 515);
+var pies = [];
+pies.push(piechart("Calories", nutrition["calories"], 2000, 250, 515));
+pies.push(piechart("Fats", gramsToInt(nutrition["fat"]), 75, 625, 160));
+pies.push(piechart("Proteins", gramsToInt(nutrition["protein"]), 100, 625, 515));
+pies.push(piechart("Sugars", nutrition["nutrients"][11]["amount"], 40, 1000, 160));
+pies.push(piechart("Carbohydrates", gramsToInt(nutrition["carbs"]), 200, 1000, 515));
+
+var texts = [];
+
+var state = 6;
+var rect = svg.append("rect").on("click", function () {
+  state = updateState();
+  pies.forEach(pie => {
+    pie.attr("opacity", state == 8 ? 1 : 0)
+  })
+  texts.forEach(pie => {
+    pie.attr("opacity", state == 6 ? 1 : 0)
+  })
+});
 
 function gramsToInt(grams) {
   return Number(grams.substr(0, grams.length - 1));
+}
+
+function updateState() {
+  return state == 6 ? 8 : 6;
 }
