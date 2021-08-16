@@ -25,7 +25,7 @@ d3.json(getURL(id), function (data) {
     .attr('y', 60)
     .attr('width', 240)
     .attr('height', 255)
-    .attr('fill', '#F3F3F3')
+    .attr('fill', '#fff')
 
   var img = d3.select("svg").selectAll("image").data([0]).enter().append("svg:image")
     .attr("href", (data["images"] != null && data["images"].length > 0) ? data["images"][data["images"].length - 1] : (data["image"] != null ? data["image"] : null))
@@ -53,7 +53,7 @@ d3.json(getURL(id), function (data) {
   var texts = [];
 
   var rect = svg.append("rect")
-    .attr("x", 700).attr("y", 100)
+    .attr("x", 1200).attr("y", 100)
     .attr("width", 100).attr("height", 100)
     .attr("fill", "black")
     .on("click", () => {
