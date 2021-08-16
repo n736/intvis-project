@@ -103,7 +103,7 @@ function stat(type, food_value, cx, cy) {
   .attr("font-weight", 800)
   .attr("font-family", "Arial")
   .style("font-size", "22px")
-  .text(type + " : " + food_value + (type == "Calories" ? " kcal" : " g"));
+  .text(type + " : " + food_value + (type == "Calories" ? "" : " g"));
 
   return g;
 }

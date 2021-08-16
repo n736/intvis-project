@@ -41,6 +41,15 @@ function piechart(type, food_value, daily_value, cx, cy) {
     .style("font-size", "22px")
     .text("Recommended " + type);
 
+  compare = g.append("text")
+    .attr("x", 0)
+    .attr("y", height / 2 + 80)
+    .attr("text-anchor", "middle")
+    .attr("font-weight", 800)
+    .attr("font-family", "Arial")
+    .style("font-size", "22px")
+    .text("(" + food + (type == "Calories" ? "" : "g") + " out of " + daily_value.toFixed(0) + (type == "Calories" ? "" : "g") + ")");
+
 
   /* Common Colors For Food Types
   Calories : #5C4EB1
