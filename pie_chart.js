@@ -13,27 +13,28 @@ function piechart(type, food_value, daily_value, cx, cy) {
     height = 200,
     radius = Math.min(width, height) / 2,
     g = svg.append("g").attr("transform", "translate(" + cx + "," + cy + ")");
-  header = svg.append("text")
-    .attr("x", cx)
-    .attr("y", cy - height / 2 - 15)
+
+  header = g.append("text")
+    .attr("x", 0)
+    .attr("y", -height / 2 - 15)
     .attr("text-anchor", "middle")
     .attr("font-weight", 800)
     .attr("font-family", "Arial")
     .style("font-size", "22px")
     .text(type);
 
-  tail = svg.append("text")
-    .attr("x", cx)
-    .attr("y", cy + height / 2 + 30)
+  tail = g.append("text")
+    .attr("x", 0)
+    .attr("y", height / 2 + 30)
     .attr("text-anchor", "middle")
     .attr("font-weight", 800)
     .attr("font-family", "Arial")
     .style("font-size", "22px")
     .text(((food / per_day) * 100).toFixed(2) + "% of Daily");
 
-  tail2 = svg.append("text")
-    .attr("x", cx)
-    .attr("y", cy + height / 2 + 55)
+  tail2 = g.append("text")
+    .attr("x", 0)
+    .attr("y", height / 2 + 55)
     .attr("text-anchor", "middle")
     .attr("font-weight", 800)
     .attr("font-family", "Arial")
