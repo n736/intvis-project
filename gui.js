@@ -411,8 +411,32 @@ data = {
 }
 
 const nutrition = data["nutrition"];
-var img = d3.select("svg").selectAll("image").data([0]).enter().append("svg:image").attr("href", "./data/pic.jpg")
-  .attr("width", 200).attr("height", 200).attr("x", 100).attr("y", 50);
+
+var img_bck = d3.select("svg").append('rect')
+  .attr("rx", 15)
+  .attr("ry", 15)
+  .attr('x', 132.5)
+  .attr('y', 60)
+  .attr('width', 240)
+  .attr('height', 255)
+  .attr('fill', '#F3F3F3')
+
+var img = d3.select("svg").selectAll("image").data([0]).enter().append("svg:image")
+  .attr("href", data["image"] )
+  .attr("width", 200)
+  .attr("height", 200)
+  .attr("x", 152.5)
+  .attr("y", 75);
+
+var img_name = d3.select("svg").append("text")
+  .attr("x", 250)             
+  .attr("y", 300)
+  .attr("text-anchor", "middle")
+  .attr("font-weight", 800)
+  .attr("font-family", "Arial")
+  .style("font-size", "14px")
+  .text( data["title"].substr(0, 28) )
+
 
 piechart("Calories", nutrition["calories"], 2000, 250, 515);
 piechart("Fats", gramsToInt(nutrition["fat"]), 75, 625, 160);
