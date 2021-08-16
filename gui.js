@@ -73,6 +73,8 @@ d3.json(getURL(id), function (data) {
       stats.forEach(statistic => {
         statistic.attr("opacity", state == 6 ? 1 : 0)
       })
+      d3.select("#calc").style("display", state == 6 ? "block" : "none");
+      svg.attr("height", state == 6 ? 350 : 700);
     });
 });
 
@@ -97,13 +99,13 @@ function stat(type, food_value, cx, cy) {
     g = svg.append("g").attr("transform", "translate(" + cx + "," + cy + ")");
 
   msg = g.append("text")
-  .attr("x", 0)
-  .attr("y", 0)
-  .attr("text-anchor", "front")
-  .attr("font-weight", 800)
-  .attr("font-family", "Arial")
-  .style("font-size", "22px")
-  .text(type + " : " + food_value + (type == "Calories" ? "" : " g"));
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("text-anchor", "front")
+    .attr("font-weight", 800)
+    .attr("font-family", "Arial")
+    .style("font-size", "22px")
+    .text(type + " : " + food_value + (type == "Calories" ? "" : " g"));
 
   return g;
 }
