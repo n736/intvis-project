@@ -13,7 +13,7 @@ const id = 409777;
 
 //   console.log(data);
 
-data = {
+const data = {
   "id": 409777,
   "title": "Gatorade Prime Fuel Bar Peanut Butter Chocolate",
   "price": 0.0,
@@ -413,7 +413,7 @@ data = {
 var svg = d3.select("svg");
 
 const nutrition = data["nutrition"];
-var img = .selectAll("image").data([0]).enter().append("svg:image").attr("href", "./data/pic.jpg")
+var img = svg.selectAll("image").data([0]).enter().append("svg:image").attr("href", "./data/pic.jpg")
   .attr("width", 200).attr("height", 200).attr("x", 100).attr("y", 50);
 
 var pies = [];
