@@ -428,6 +428,10 @@ resturaunts.forEach(rest => {
   i++;
 })
 
+//STATE 1 VVV
+
+//DNE
+
 //STATE 2 VVV
 
 //Create the Picture of the food
