@@ -8,9 +8,9 @@ const margin = {
 // height = * ;
 
 const id = 228341;
-var state = 1;
+var state = 2;
 
-//d3.json(getURL(id), function (data) {
+
 data = {
   "id": 409777,
   "title": "Gatorade Prime Fuel Bar Peanut Butter Chocolate",
@@ -408,12 +408,11 @@ data = {
   "ingredientList": "Whole Grain Rolled Oats, Invert Sugar, Sugar, Whole Grain Rolled Wheat, Crisp Rice (Rice Flour, Sugar, Malt [Malted Barley and Corn Extract, Wheat Starch, Hydroxylated Soy Lecithin], Salt), Corn Syrup Solids, Crisp Rice (Rice Flour, Sugar, Barley Malt, Salt, Mono and Diglycerides), Nonfat Dry Milk, Glycerin, Honey, Sunflower Oil, Sorbitol, Water, Vegetable Oil (Palm Kernel and Palm Oil), Salt, Natural Flavor, Cocoa (Processed with Alkali), Cocoa Powder, Dry Whey, Soy Lecithin, Lactose, Tocopherols (Preservative), Vanilla Extract"
 }
 
-console.log(data);
 var calc = null
 
 var svg = d3.select("svg");
 
-const nutrition = data["nutrition"];
+var nutrition = {}
 
 var img_back = d3.select("svg").append('rect')
   .attr("rx", 15)
@@ -423,15 +422,14 @@ var img_back = d3.select("svg").append('rect')
   .attr('width', 240)
   .attr('height', 255)
   .attr('fill', '#fff')
-  .attr("opacity", (state == 6 || state == 8) ? 1 : 0);
+  .attr("opacity", 0);
 
 var img = d3.select("svg").selectAll("image").data([0]).enter().append("svg:image")
-  .attr("href", (data["images"] != null && data["images"].length > 0) ? data["images"][data["images"].length - 1] : (data["image"] != null ? data["image"] : null))
   .attr("width", 200)
   .attr("height", 200)
   .attr("x", 152.5)
   .attr("y", 75)
-  .attr("opacity", (state == 6 || state == 8) ? 1 : 0);
+  .attr("opacity", 0);
 
 var img_name = d3.select("svg").append("text")
   .attr("x", 250)
@@ -439,22 +437,47 @@ var img_name = d3.select("svg").append("text")
   .attr("text-anchor", "middle")
   .attr("font-weight", 800)
   .attr("font-family", "Arial")
-  .attr("opacity", (state == 6 || state == 8) ? 1 : 0)
+  .attr("opacity", 0)
   .style("font-size", "14px")
-  .text(data["title"].substr(0, 28));
 
 var pies = [];
-
 var stats = [];
-stats.push(stat("Calories", nutrition["calories"], 450, 150));
-stats.push(stat("Fats", gramsToInt(nutrition["fat"]), 450, 200));
-stats.push(stat("Proteins", gramsToInt(nutrition["protein"]), 450, 250));
-stats.push(stat("Sugars", getSugar(nutrition["nutrients"]), 750, 250));
-stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 750, 200));
+
+
+var see_my_stats = d3.select("#search_button")
+  .on("click", function () {
+    state = updateState(state, 0);
+
+    img.attr("href", (data["images"] != null && data["images"].length > 0) ? data["images"][data["images"].length - 1] : (data["image"] != null ? data["image"] : null))
+    img_name.text(data["title"].substr(0, 28));
+
+    console.log(data);
+    nutrition = data["nutrition"];
+
+    //d3.json(getURL(id), function (data) {
+    stats.push(stat("Calories", nutrition["calories"], 450, 150));
+    stats.push(stat("Fats", gramsToInt(nutrition["fat"]), 450, 200));
+    stats.push(stat("Proteins", gramsToInt(nutrition["protein"]), 450, 250));
+    stats.push(stat("Sugars", getSugar(nutrition["nutrients"]), 750, 250));
+    stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 750, 200));
+
+    stats.forEach(statistic => {
+      statistic.attr("opacity", state == 6 ? 1 : 0);
+    })
+
+    d3.select("#calc").style("display", state == 6 ? "block" : "none");
+    d3.select("#search").style("display", state == 2 ? "block" : "none");
+
+    img_back.attr("opacity", 1);
+    img.attr("opacity", 1);
+    img_name.attr("opacity", 1);
+
+    svg.attr("height", state == 6 ? 350 : (state == 8 ? 700 : 0));
+  });
 
 var see_my_stats = d3.select("#button")
   .on("click", function () {
-    state = updateState();
+    state = updateState(state, 0);
 
     calc = new Calculator(
       Number(d3.select("#weight").node().value),
@@ -479,14 +502,12 @@ var see_my_stats = d3.select("#button")
       statistic.attr("opacity", state == 6 ? 1 : 0);
     })
     d3.select("#calc").style("display", state == 6 ? "block" : "none");
-    svg.attr("height", state == 6 ? 350 : 700);
+    svg.attr("height", state == 6 ? 350 : (state == 8 ? 700 : 0));
   });
-
-console.log(see_my_stats);
 
 var go_back = d3.select("#back_button")
   .on("click", function () {
-    state = (state <= 2 ? 1 : state - 2);
+    state = updateState(state, 1);
 
     if (stats != null) {
       stats.forEach(statistic => {
@@ -502,7 +523,9 @@ var go_back = d3.select("#back_button")
     img.attr("opacity", (state == 6 || state == 8) ? 1 : 0);
     img_name.attr("opacity", (state == 6 || state == 8) ? 1 : 0);
     d3.select("#calc").style("display", state == 6 ? "block" : "none");
-    svg.attr("height", state == 6 ? 350 : 700);
+    d3.select("#search").style("display", state == 2 ? "block" : "none");
+    svg.attr("height", state == 6 ? 350 : (state == 8 ? 700 : 0));
+    go_back.style("display", state == 1 ? "none" : "block")
 
   });
 // });
@@ -510,9 +533,19 @@ var go_back = d3.select("#back_button")
 function gramsToInt(grams) {
   return Number(grams.substr(0, grams.length - 1));
 }
+const next_state = {
+  1: 2,
+  2: 6,
+  6: 8
+}
+const prev_state = {
+  8: 6,
+  6: 2,
+  2: 1
+}
 
-function updateState() {
-  return state == 6 ? 8 : 6;
+function updateState(state, back) {
+  return (back > 0) ? prev_state[state] : next_state[state];
 }
 
 function getSugar(nutrients) {
