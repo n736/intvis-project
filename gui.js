@@ -8,7 +8,7 @@ const margin = {
 // height = * ;
 
 const id = 228341;
-var state = 0;
+var state = 3;
 
 //d3.json(getURL(id), function (data) {
 data = {
@@ -501,12 +501,12 @@ var go_back = d3.select("#back_button")
         pie.attr("opacity", state == 3 ? 1 : 0);
       })
     }
-    
-    rest_img.forEach(rest => {
-      rest.attr("opacity", (state == 0) ? 1: 0);
-    })
 
+    rest_img.forEach(place => {
+      place.attr("opacity", (state == 0) ? 1: 0);
+    })
     food_image.attr("opacity", (state == 2 || state == 3) ? 1 : 0);
+    
     d3.select("#calc").style("display", state == 2 ? "block" : "none");
     svg.attr("height", state == 2 ? 350 : 700);
 
