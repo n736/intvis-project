@@ -1,6 +1,9 @@
 .column {
   float: left;
-  width: 150px;
+  width: 175px;
+}
+
+.row {
   margin-left: 132.5px;
 }
 
@@ -9,4 +12,20 @@
   content: "";
   display: table;
   clear: both;
+}
+
+#button_column.column {
+  width: 300px;
+}
+
+#button {
+  width: 300px;
+  height: 80px;
+  background-color: rgb(38, 216, 38);
+  font-size: 32px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  border-radius: 69px;
+  border-style: solid;
+  border-color: black;
+  font-weight: 800px;
 }
