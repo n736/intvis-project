@@ -83,25 +83,25 @@ d3.json(getURL(id), function (data) {
       svg.attr("height", state == 6 ? 350 : 700);
     });
 
-    var back_button = d3.select('svg').append("rect")
-      .attr("rx", 6)
-      .attr("ry", 6)
-      .attr("x", 1100)
-      .attr("y", 60)
-      .attr("width", 75)
-      .attr("height", 37.5)
-      .attr("transform", function(d, i) { return "scale(" + (1 - d / 25) * 20 + ")"; })
-      .style("fill", "#D06B6B")
-      .on("click", function() {
-        state = (state == 2 ? 1 : state - 2);
-        pies.forEach(pie => {
-          pie.attr("opacity", state == 8 ? 1 : 0)
-        })
-        stats.forEach(statistic => {
-          statistic.attr("opacity", state == 6 ? 1 : 0)
-        })
-      d3.select("#calc").style("display", "block");
-      });
+  var back_button = d3.select('svg').append("rect")
+    .attr("rx", 6)
+    .attr("ry", 6)
+    .attr("x", 1100)
+    .attr("y", 40)
+    .attr("width", 75)
+    .attr("height", 37.5)
+    .attr("transform", function(d, i) { return "scale(" + (1 - d / 25) * 20 + ")"; })
+    .style("fill", "#D06B6B")
+    .on("click", function() {
+      state = (state == 2 ? 1 : state - 2);
+      pies.forEach(pie => {
+        pie.attr("opacity", state == 8 ? 1 : 0)
+      })
+      stats.forEach(statistic => {
+        statistic.attr("opacity", state == 6 ? 1 : 0)
+      })
+    d3.select("#calc").style("display", "block");
+    });
 });
 
 function gramsToInt(grams) {
