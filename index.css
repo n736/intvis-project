@@ -27,7 +27,6 @@
   border-radius: 69px;
   border-style: solid;
   border-color: black;
-  font-weight: 800px;
 }
 
 .back_row {
@@ -37,13 +36,12 @@
 #back_button {
   width: 75px;
   height: 37.5px;
-  background-color: rgb(216, 49, 49);
+  background-color: rgb(247, 55, 55);
   font-size: 22px;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  border-radius: 30px;
+  border-radius: 7px;
   border-style: solid;
   border-color: black;
-  font-weight: 800px;
 }
 
 #search_button {
@@ -55,7 +53,6 @@
   border-radius: 69px;
   border-style: solid;
   border-color: black;
-  font-weight: 800px;
 }
 
 #search_input {
@@ -66,6 +63,5 @@
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   border-style: solid;
   border-color: black;
-  font-weight: 800px;
   text-align: center;
 }

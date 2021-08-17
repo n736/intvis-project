@@ -432,24 +432,27 @@ var img = d3.select("svg").selectAll("image").data([0]).enter().append("svg:imag
   .attr("opacity", 0);
 
 var img_name = d3.select("svg").append("text")
+  // .attr("id", "img_name")
   .attr("x", 250)
-  .attr("y", 300)
+  .attr("y", 275)
+  .attr("dy", 0)
+  .attr('height', 255)
+  .attr('width', 240)
   .attr("text-anchor", "middle")
   .attr("font-weight", 800)
-  .attr("font-family", "Arial")
+  .attr("font-family", "'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif")
   .attr("opacity", 0)
   .style("font-size", "14px")
 
 var pies = [];
 var stats = [];
 
-
 var see_my_stats = d3.select("#search_button")
   .on("click", function () {
     state = updateState(state, 0);
 
     img.attr("href", (data["images"] != null && data["images"].length > 0) ? data["images"][data["images"].length - 1] : (data["image"] != null ? data["image"] : null))
-    img_name.text(data["title"].substr(0, 28));
+    img_name.text(data["title"]).call(wrap, 200);
 
     console.log(data);
     nutrition = data["nutrition"];
