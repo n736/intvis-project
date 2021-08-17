@@ -13,6 +13,7 @@ var state = 6;
 d3.json(getURL(id), function (data) {
 
   console.log(data);
+  var calc = null
 
   var svg = d3.select("svg");
 
@@ -43,16 +44,6 @@ d3.json(getURL(id), function (data) {
     .style("font-size", "14px")
     .text(data["title"].substr(0, 28))
 
-  var pies = [];
-  pies.push(piechart("Calories", nutrition["calories"], 2000, 250, 515));
-  pies.push(piechart("Fats", gramsToInt(nutrition["fat"]), 75, 625, 160));
-  pies.push(piechart("Proteins", gramsToInt(nutrition["protein"]), 100, 625, 515));
-  pies.push(piechart("Sugars", getSugar(nutrition["nutrients"]), 40, 1000, 160));
-  pies.push(piechart("Carbohydrates", gramsToInt(nutrition["carbs"]), 200, 1000, 515));
-  pies.forEach(pie => {
-    pie.attr("opacity", state == 8 ? 1 : 0)
-  })
-
   var stats = [];
   stats.push(stat("Calories", nutrition["calories"], 450, 150));
   stats.push(stat("Fats", gramsToInt(nutrition["fat"]), 450, 200));
@@ -67,15 +58,35 @@ d3.json(getURL(id), function (data) {
     // .attr("fill", "black")
     .on("click", () => {
       state = updateState();
+
+      calc = new Calculator(
+        Number(d3.select("#weight").node().value),
+        Number(d3.select("#heightft").node().value),
+        Number(d3.select("#heightin").node().value),
+        Number(d3.select("#age").node().value),
+        d3.select('input[name="sex"]:checked').node().value,
+        d3.select('input[name="losingweight"]:checked').node().value,
+        d3.select('input[name="actlvl"]:checked').node().value
+      );
+
+      var pies = [];
+      pies.push(piechart("Calories", nutrition["calories"], calc.calories(), 250, 515));
+      pies.push(piechart("Fats", gramsToInt(nutrition["fat"]), calc.fats(), 625, 160));
+      pies.push(piechart("Proteins", gramsToInt(nutrition["protein"]), calc.proteins(), 625, 515));
+      pies.push(piechart("Sugars", getSugar(nutrition["nutrients"]), calc.sugars(), 1000, 160));
+      pies.push(piechart("Carbohydrates", gramsToInt(nutrition["carbs"]), calc.carbs(), 1000, 515));
+
       pies.forEach(pie => {
-        pie.attr("opacity", state == 8 ? 1 : 0)
+        pie.attr("opacity", state == 8 ? 1 : 0);
       })
       stats.forEach(statistic => {
-        statistic.attr("opacity", state == 6 ? 1 : 0)
+        statistic.attr("opacity", state == 6 ? 1 : 0);
       })
       d3.select("#calc").style("display", state == 6 ? "block" : "none");
       svg.attr("height", state == 6 ? 350 : 700);
     });
+
+
 });
 
 function gramsToInt(grams) {
