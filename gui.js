@@ -52,14 +52,7 @@ d3.json(getURL(id), function (data) {
   stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 750, 200));
 
 
-<<<<<<< HEAD
   var see_my_stats = d3.select("body").append("button")
-=======
-  d3.select("#button")
->>>>>>> 3ddef90dfba20bbf6a32995b7dd5a3504741a86a
-    // .attr("x", 1200).attr("y", 100)
-    // .attr("width", 100).attr("height", 100)
-    // .attr("fill", "black")
     .on("click", () => {
       state = updateState();
 
