@@ -8,7 +8,7 @@ const margin = {
 // height = * ;
 
 const id = 228341;
-var state = 6;
+var state = 1;
 
 //d3.json(getURL(id), function (data) {
 data = {
@@ -503,6 +503,7 @@ var go_back = d3.select("#back_button")
     img_name.attr("opacity", (state == 6 || state == 8) ? 1 : 0);
     d3.select("#calc").style("display", state == 6 ? "block" : "none");
     svg.attr("height", state == 6 ? 350 : 700);
+
   });
 // });
 
