@@ -22,17 +22,20 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png"> -->
 
   <!-- <link rel="stylesheet" href="css/styles.css?v=1.0"> -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"> </script>
   <script src="calculator.js"></script>
   <script src="foodapi.js"></script>
   <script src="pie_chart.js"></script>
-  <script src="https://d3js.org/d3-time.v1.min.js"></script>
   <script src="https://d3js.org/d3.v4.js"></script>
 </head>
 
 <body style="background-color: rgb(226, 250, 250);">
+  <div class="back_row">
+    <div class="column">
+      <button id="back_button">Back</button>
+    </div>
+  </div>
+
   <svg width="1200" height="350"></svg>
-  <script src="gui.js"></script>
   <br>
   <div class="row" id="calc">
     <div class="column">
@@ -84,6 +87,9 @@
     <input type="text" id="food" name="food"><br><br>
     <button id="search">Search</button>
   </div>
+
+  <script src="gui.js"></script>
+
 </body>
 
 </html>

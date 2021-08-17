@@ -30,24 +30,6 @@ function piechart(type, food_value, daily_value, cx, cy) {
     .attr("font-weight", 800)
     .attr("font-family", "Arial")
     .style("font-size", "22px")
-    .text(((food / per_day) * 100).toFixed(2) + "% of Daily");
-
-  tail2 = g.append("text")
-    .attr("x", 0)
-    .attr("y", height / 2 + 55)
-    .attr("text-anchor", "middle")
-    .attr("font-weight", 800)
-    .attr("font-family", "Arial")
-    .style("font-size", "22px")
-    .text("Recommended " + type);
-
-  compare = g.append("text")
-    .attr("x", 0)
-    .attr("y", height / 2 + 80)
-    .attr("text-anchor", "middle")
-    .attr("font-weight", 800)
-    .attr("font-family", "Arial")
-    .style("font-size", "22px")
     .text("(" + food + (type == "Calories" ? "" : "g") + " out of " + daily_value.toFixed(0) + (type == "Calories" ? "" : "g") + ")");
 
 
@@ -93,6 +75,15 @@ function piechart(type, food_value, daily_value, cx, cy) {
       return color(i);
     })
     .attr("d", arc);
+  
+  middle = g.append("text")
+    .attr("x", 0 + 10)
+    .attr("y", height / 2 - 95)
+    .attr("text-anchor", "middle")
+    .attr("font-weight", 800)
+    .attr("font-family", "Arial")
+    .style("font-size", "22px")
+    .text(((food / per_day) * 100).toFixed(2) + "%");
 
   return g;
 }
