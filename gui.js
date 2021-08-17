@@ -8,7 +8,7 @@ const margin = {
 // height = * ;
 
 const id = 228341;
-var state = 4;
+var state = 0;
 
 //d3.json(getURL(id), function (data) {
 data = {
@@ -415,12 +415,25 @@ var svg = d3.select("svg");
 
 const nutrition = data["nutrition"];
 
+//STATE 0 VVV
+var resturaunts = ["Burger King", "Chick-Fil-A", "Chipotle", "Dominoes", "Dunkin' Donuts", "Five Guys", 
+"Hardee's", "Jimmy John's", "KFC", "McDonald's", "Panera Bread", "Papa John's", "Pizza Hut", "Sonic", "Starbucks",
+"Subway", "Taco Bell", "Wendy's", "Whataburger"];
+
+let i = 1;
+var rest_img = [];
+
+resturaunts.forEach(rest => {
+  rest_img.push(create_image( "./resturaunt_pics/" + rest + ".png" , rest, (i%5) * 100, Math.floor(i/5) * 200) );
+  i++;
+})
+
+//STATE 2 VVV
+
 //Create the Picture of the food
 let image = (data["images"] != null && data["images"].length > 0) ? data["images"][data["images"].length - 1] : (data["image"] != null ? data["image"] : null);
-var food_image = create_image( image, data["title"], 132.5, 60);
+var food_image = create_image( image, data["title"], 132.5, 60, false);
 food_image.attr("opacity", (state == 2 || state == 3) ? 1 : 0);
-
-var pies = [];
 
 var stats = [];
 stats.push(stat("Calories", nutrition["calories"], 450, 150));
@@ -428,6 +441,10 @@ stats.push(stat("Fats", gramsToInt(nutrition["fat"]), 450, 200));
 stats.push(stat("Proteins", gramsToInt(nutrition["protein"]), 450, 250));
 stats.push(stat("Sugars", getSugar(nutrition["nutrients"]), 750, 250));
 stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 750, 200));
+
+//STATE 3 VVV
+
+var pies = [];
 
 var see_my_stats = d3.select("#button")
   .on("click", function () {
@@ -460,6 +477,8 @@ var see_my_stats = d3.select("#button")
   });
 
 console.log(see_my_stats);
+
+//BACK BUTTON VVV
 
 var go_back = d3.select("#back_button")
   .on("click", function () {
@@ -514,7 +533,7 @@ function stat(type, food_value, cx, cy) {
   return g;
 }
 
-function create_image(image, title, x, y) {
+function create_image(image, title, x, y, click) {
   var svg = d3.select("svg"),
   g = svg.append("g");
   
