@@ -410,6 +410,8 @@ data = {
 
 var calc = null
 
+const heights = [1375, 0, 350, 700]
+
 var svg = d3.select("svg");
 
 var nutrition = {}
@@ -417,19 +419,21 @@ var nutrition = {}
 var pies = [];
 var stats = [];
 
+var food_image;
+
 var search_button = d3.select("#search_button")
   .on("click", function () {
-    state = updateState(state, 0);
+    state = nextState(state);
 
     //Create the Picture of the food
     let image = (data["images"] != null && data["images"].length > 0) ? data["images"][data["images"].length - 1] : (data["image"] != null ? data["image"] : null);
-    var food_image = create_image(image, data["title"], 132.5, 60, false);
+    food_image = create_image(image, data["title"], 132.5, 60, false);
     food_image.attr("opacity", (state == 2 || state == 3) ? 1 : 0);
 
     console.log(data);
     nutrition = data["nutrition"];
 
-    //d3.json(getURL(id), function (data) {
+    // d3.json(getURL(id), function (data) {
     stats.push(stat("Calories", nutrition["calories"], 450, 150));
     stats.push(stat("Fats", gramsToInt(nutrition["fat"]), 450, 200));
     stats.push(stat("Proteins", gramsToInt(nutrition["protein"]), 450, 250));
@@ -441,13 +445,9 @@ var search_button = d3.select("#search_button")
     })
 
     d3.select("#calc").style("display", state == 2 ? "block" : "none");
-    d3.select("#search").style("display", state == 2 ? "block" : "none");
+    d3.select("#search").style("display", state == 1 ? "block" : "none");
 
-    img_back.attr("opacity", 1);
-    img.attr("opacity", 1);
-    img_name.attr("opacity", 1);
-
-    svg.attr("height", state == 2 ? 350 : (state == 8 ? 700 : 0));
+    svg.attr("height", heights[state]);
   });
 
 //STATE 0 VVV
@@ -457,10 +457,23 @@ var resturaunts = ["Burger King", "Chick-Fil-A", "Chipotle", "Dominoes", "Dunkin
 ];
 
 let i = 0;
-var rest_img = [];
-
+var rest_g_arr = []
 resturaunts.forEach(rest => {
-  rest_img.push(create_image("resturaunt_pics/" + rest + ".png", rest, (i % 4) * 275 + 50, Math.floor(i / 4) * 275), true);
+  let rest_g = create_image("resturaunt_pics/" + rest + ".png", rest, (i % 4) * 275 + 50, Math.floor(i / 4) * 275, true);
+  rest_g_arr.push(rest_g);
+  rest_g.attr("class", "clickable");
+  rest_g.on("click", () => {
+    state = nextState(state);
+    d3.select("#search").style("display", "block");
+    go_back.style("display", "block")
+
+    rest_g_arr.forEach(rest => {
+      rest.attr("opacity", 0)
+    });
+
+    d3.select("#search").style("display", "block");
+    svg.attr("height", heights[state]);
+  });
   i++;
 })
 
@@ -476,17 +489,23 @@ var pies = [];
 
 var see_my_stats = d3.select("#button")
   .on("click", function () {
-    state = updateState(state, 0);
+    try {
+      calc = new Calculator(
+        Number(d3.select("#weight").node().value),
+        Number(d3.select("#heightft").node().value),
+        Number(d3.select("#heightin").node().value),
+        Number(d3.select("#age").node().value),
+        d3.select('input[name="sex"]:checked').node().value,
+        d3.select('input[name="losingweight"]:checked').node().value,
+        d3.select('input[name="actlvl"]:checked').node().value
+      );
+    } catch (error) {
+      d3.select("#button").style("color", "red");
+      return;
+    }
+    d3.select("#button").style("color", "black");
 
-    calc = new Calculator(
-      Number(d3.select("#weight").node().value),
-      Number(d3.select("#heightft").node().value),
-      Number(d3.select("#heightin").node().value),
-      Number(d3.select("#age").node().value),
-      d3.select('input[name="sex"]:checked').node().value,
-      d3.select('input[name="losingweight"]:checked').node().value,
-      d3.select('input[name="actlvl"]:checked').node().value
-    );
+    state = nextState(state);
 
     pies.push(piechart("Calories", nutrition["calories"], calc.calories(), 250, 515));
     pies.push(piechart("Fats", gramsToInt(nutrition["fat"]), calc.fats(), 625, 160));
@@ -501,11 +520,10 @@ var see_my_stats = d3.select("#button")
       statistic.attr("opacity", state == 2 ? 1 : 0);
     })
     d3.select("#calc").style("display", state == 2 ? "block" : "none");
-    svg.attr("height", state == 2 ? 350 : (state == 8 ? 700 : 0));
+    svg.attr("height", heights[state]);
   });
 
 var go_back = d3.select("#back_button")
-  .attr("opacity", 0)
   .on("click", function () {
     state = prevState(state);
 
@@ -520,18 +538,20 @@ var go_back = d3.select("#back_button")
       })
     }
 
-    d3.select("#search").style("display", state == 2 ? "block" : "none");
-    svg.attr("height", state == 2 ? 350 : (state == 8 ? 700 : 0));
-    go_back.style("display", state == 1 ? "none" : "block")
+    d3.select("#search").style("display", state == 1 ? "block" : "none");
+    go_back.style("display", state == 0 ? "none" : "block")
 
-    rest_img.forEach(place => {
-      place.attr("opacity", (state == 0) ? 1 : 0);
-    })
-    food_image.attr("opacity", (state == 2 || state == 3) ? 1 : 0);
+    rest_g_arr.forEach(rest => {
+      rest.attr("opacity", state == 0 ? 1 : 0)
+      rest.style("pointerEvents", state == 0 ? "auto" : "none")
+    });
+
+    if (food_image != null) {
+      food_image.attr("opacity", (state == 2 || state == 3) ? 1 : 0);
+    }
 
     d3.select("#calc").style("display", state == 2 ? "block" : "none");
-    svg.attr("height", state == 2 ? 350 : 700);
-
+    svg.attr("height", heights[state]);
   });
 // });
 
@@ -540,11 +560,11 @@ function gramsToInt(grams) {
 }
 
 function prevState(state) {
-  if (state > 0) state--;
+  if (state > 0) return state - 1;
 }
 
 function nextState(state) {
-  if (state < 3) state++;
+  if (state < 3) return state + 1;
 }
 
 function getSugar(nutrients) {
