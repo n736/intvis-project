@@ -44,6 +44,8 @@ d3.json(getURL(id), function (data) {
     .style("font-size", "14px")
     .text(data["title"].substr(0, 28))
 
+  var pies = [];
+
   var stats = [];
   stats.push(stat("Calories", nutrition["calories"], 450, 150));
   stats.push(stat("Fats", gramsToInt(nutrition["fat"]), 450, 200));
@@ -69,7 +71,6 @@ d3.json(getURL(id), function (data) {
         d3.select('input[name="actlvl"]:checked').node().value
       );
 
-      var pies = [];
       pies.push(piechart("Calories", nutrition["calories"], calc.calories(), 250, 515));
       pies.push(piechart("Fats", gramsToInt(nutrition["fat"]), calc.fats(), 625, 160));
       pies.push(piechart("Proteins", gramsToInt(nutrition["protein"]), calc.proteins(), 625, 515));
@@ -102,10 +103,12 @@ d3.json(getURL(id), function (data) {
       pies.forEach(pie => {
         pie.attr("opacity", state == 8 ? 1 : 0)
       })
+      pies = []
       stats.forEach(statistic => {
         statistic.attr("opacity", state == 6 ? 1 : 0)
       })
-      d3.select("#calc").style("display", "block");
+      d3.select("#calc").style("display", state == 6 ? "block" : "none");
+      svg.attr("height", state == 6 ? 350 : 700);
     });
 });
 
