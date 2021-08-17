@@ -25,6 +25,7 @@
   <script src="calculator.js"></script>
   <script src="foodapi.js"></script>
   <script src="pie_chart.js"></script>
+  <script src="textwrap.js"></script>
   <script src="https://d3js.org/d3.v4.js"></script>
 </head>
 
@@ -36,7 +37,6 @@
   </div>
 
   <svg width="1200" height="1375"></svg>
-  <br>
   <div class="row" id="calc" style="display: none">
     <div class="column">
       <label for="height">Height: </label>
@@ -82,10 +82,10 @@
     </div>
   </div>
 
-  <div id="search">
+  <div id="search" style="display: none;">
     <center>
-      <input type="text" placeholder="FOOD NAME HERE!" id="search_input" name="search_input"
-        onkeypress="this.style.width = ((this.value.length + 1) * 18) + 'px';">><br><br>
+      <input type="text" placeholder="FOOD NAME HERE!" id="search_input" name="search_input" <<<<<<< HEAD
+        onkeypress="this.style.width = ((this.value.length + 1) * 18) + 'px';"><br><br>
       <button id="search_button"><b>Search</b></button>
     </center>
   </div>

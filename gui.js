@@ -10,7 +10,8 @@ const margin = {
 const id = 228341;
 var state = 0;
 
-//d3.json(getURL(id), function (data) {
+var state = 0;
+
 data = {
   "id": 409777,
   "title": "Gatorade Prime Fuel Bar Peanut Butter Chocolate",
@@ -408,23 +409,59 @@ data = {
   "ingredientList": "Whole Grain Rolled Oats, Invert Sugar, Sugar, Whole Grain Rolled Wheat, Crisp Rice (Rice Flour, Sugar, Malt [Malted Barley and Corn Extract, Wheat Starch, Hydroxylated Soy Lecithin], Salt), Corn Syrup Solids, Crisp Rice (Rice Flour, Sugar, Barley Malt, Salt, Mono and Diglycerides), Nonfat Dry Milk, Glycerin, Honey, Sunflower Oil, Sorbitol, Water, Vegetable Oil (Palm Kernel and Palm Oil), Salt, Natural Flavor, Cocoa (Processed with Alkali), Cocoa Powder, Dry Whey, Soy Lecithin, Lactose, Tocopherols (Preservative), Vanilla Extract"
 }
 
-console.log(data);
 var calc = null
 
 var svg = d3.select("svg");
 
-const nutrition = data["nutrition"];
+var nutrition = {}
+
+var pies = [];
+var stats = [];
+
+var search_button = d3.select("#search_button")
+  .on("click", function () {
+    state = updateState(state, 0);
+
+    //Create the Picture of the food
+    let image = (data["images"] != null && data["images"].length > 0) ? data["images"][data["images"].length - 1] : (data["image"] != null ? data["image"] : null);
+    var food_image = create_image(image, data["title"], 132.5, 60, false);
+    food_image.attr("opacity", (state == 2 || state == 3) ? 1 : 0);
+
+    console.log(data);
+    nutrition = data["nutrition"];
+
+    //d3.json(getURL(id), function (data) {
+    stats.push(stat("Calories", nutrition["calories"], 450, 150));
+    stats.push(stat("Fats", gramsToInt(nutrition["fat"]), 450, 200));
+    stats.push(stat("Proteins", gramsToInt(nutrition["protein"]), 450, 250));
+    stats.push(stat("Sugars", getSugar(nutrition["nutrients"]), 750, 250));
+    stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 750, 200));
+
+    stats.forEach(statistic => {
+      statistic.attr("opacity", state == 2 ? 1 : 0);
+    })
+
+    d3.select("#calc").style("display", state == 2 ? "block" : "none");
+    d3.select("#search").style("display", state == 2 ? "block" : "none");
+
+    img_back.attr("opacity", 1);
+    img.attr("opacity", 1);
+    img_name.attr("opacity", 1);
+
+    svg.attr("height", state == 2 ? 350 : (state == 8 ? 700 : 0));
+  });
 
 //STATE 0 VVV
-var resturaunts = ["Burger King", "Chick-Fil-A", "Chipotle", "Dominoes", "Dunkin' Donuts", "Five Guys", 
-"Hardee's", "Jimmy John's", "KFC", "McDonald's", "Panera Bread", "Papa John's", "Pizza Hut", "Sonic", "Starbucks",
-"Subway", "Taco Bell", "Wendy's", "Whataburger"];
+var resturaunts = ["Burger King", "Chick-Fil-A", "Chipotle", "Dominoes", "Dunkin' Donuts", "Five Guys",
+  "Hardee's", "Jimmy John's", "KFC", "McDonald's", "Panera Bread", "Papa John's", "Pizza Hut", "Sonic", "Starbucks",
+  "Subway", "Taco Bell", "Wendy's", "Whataburger"
+];
 
 let i = 0;
 var rest_img = [];
 
 resturaunts.forEach(rest => {
-  rest_img.push(create_image( "resturaunt_pics/" + rest + ".png" , rest, (i%4) * 275 + 50, Math.floor(i/4) * 275), true );
+  rest_img.push(create_image("resturaunt_pics/" + rest + ".png", rest, (i % 4) * 275 + 50, Math.floor(i / 4) * 275), true);
   i++;
 })
 
@@ -434,28 +471,13 @@ resturaunts.forEach(rest => {
 
 //STATE 2 VVV
 
-//Create the Picture of the food
-let image = (data["images"] != null && data["images"].length > 0) ? data["images"][data["images"].length - 1] : (data["image"] != null ? data["image"] : null);
-var food_image = create_image( image, data["title"], 132.5, 60, false);
-food_image.attr("opacity", (state == 2 || state == 3) ? 1 : 0);
-
-var stats = [];
-stats.push(stat("Calories", nutrition["calories"], 450, 150));
-stats.push(stat("Fats", gramsToInt(nutrition["fat"]), 450, 200));
-stats.push(stat("Proteins", gramsToInt(nutrition["protein"]), 450, 250));
-stats.push(stat("Sugars", getSugar(nutrition["nutrients"]), 750, 250));
-stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 750, 200));
-stats.forEach(statistic => {
-  statistic.attr("opacity", (state == 2) ? 1 : 0);
-})
-
 //STATE 3 VVV
 
 var pies = [];
 
 var see_my_stats = d3.select("#button")
   .on("click", function () {
-    state = updateState();
+    state = updateState(state, 0);
 
     calc = new Calculator(
       Number(d3.select("#weight").node().value),
@@ -480,16 +502,13 @@ var see_my_stats = d3.select("#button")
       statistic.attr("opacity", state == 2 ? 1 : 0);
     })
     d3.select("#calc").style("display", state == 2 ? "block" : "none");
-    svg.attr("height", state == 2 ? 350 : 700);
+    svg.attr("height", state == 2 ? 350 : (state == 8 ? 700 : 0));
   });
 
-console.log(see_my_stats);
-
-//BACK BUTTON VVV
-
 var go_back = d3.select("#back_button")
+  .attr("opacity", 0)
   .on("click", function () {
-    state = (state == 0) ? state : state - 1;
+    state = prevState(state);
 
     if (stats != null) {
       stats.forEach(statistic => {
@@ -501,6 +520,10 @@ var go_back = d3.select("#back_button")
         pie.attr("opacity", state == 3 ? 1 : 0);
       })
     }
+
+    d3.select("#search").style("display", state == 2 ? "block" : "none");
+    svg.attr("height", state == 2 ? 350 : (state == 8 ? 700 : 0));
+    go_back.style("display", state == 1 ? "none" : "block")
 
     rest_img.forEach(place => {
       place.attr("opacity", (state == 0) ? 1 : 0);
@@ -517,8 +540,12 @@ function gramsToInt(grams) {
   return Number(grams.substr(0, grams.length - 1));
 }
 
-function updateState() {
-  return state == 2 ? 3 : 2;
+function prevState(state) {
+  if (state > 0) state--;
+}
+
+function nextState(state) {
+  if (state < 3) state++;
 }
 
 function getSugar(nutrients) {
@@ -538,7 +565,7 @@ function stat(type, food_value, cx, cy) {
     .attr("y", 0)
     .attr("text-anchor", "front")
     .attr("font-weight", 800)
-    .attr("font-family", "Arial")
+    .attr("font-family", "'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif")
     .style("font-size", "22px")
     .text(type + " : " + food_value + (type == "Calories" ? "" : " g"));
 
@@ -547,32 +574,32 @@ function stat(type, food_value, cx, cy) {
 
 function create_image(image, title, x, y, sourced) {
   var svg = d3.select("svg"),
-  g = svg.append("g");
-  
+    g = svg.append("g");
+
   img_back = g.append('rect')
-  .attr("rx", 15)
-  .attr("ry", 15)
-  .attr('x', x)
-  .attr('y', y)
-  .attr('width', 240)
-  .attr('height', 255)
-  .attr('fill', '#fff')
+    .attr("rx", 15)
+    .attr("ry", 15)
+    .attr('x', x)
+    .attr('y', y)
+    .attr('width', 240)
+    .attr('height', 255)
+    .attr('fill', '#fff')
 
   img = g.selectAll("image").data([0]).enter().append("svg:image")
-  .attr( (sourced) ? "src" : "href" , image)
-  .attr("width", 200)
-  .attr("height", 200)
-  .attr("x", x + 20)
-  .attr("y", y + 15)
+    .attr((sourced) ? "src" : "href", image)
+    .attr("width", 200)
+    .attr("height", 200)
+    .attr("x", x + 20)
+    .attr("y", y + 15)
 
   img_name = g.append("text")
-  .attr("x", x + 117.5)
-  .attr("y", y + 240)
-  .attr("text-anchor", "middle")
-  .attr("font-weight", 800)
-  .attr("font-family", "Arial")
-  .style("font-size", "14px")
-  .text(title.substr(0, 25));
+    .attr("x", x + 125)
+    .attr("y", y + 240)
+    .attr("text-anchor", "middle")
+    .attr("font-weight", 800)
+    .attr("font-family", "'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif")
+    .style("font-size", "14px")
+    .text(title).call(wrap, 200);
 
   return g;
 }
