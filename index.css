@@ -29,3 +29,15 @@
   border-color: black;
   font-weight: 800px;
 }
+
+#back_button {
+  width: 75px;
+  height: 37.5;
+  background-color: rgb(216, 49, 49);
+  font-size: 22px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  border-radius: 30px;
+  border-style: solid;
+  border-color: black;
+  font-weight: 800px;
+}

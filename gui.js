@@ -27,13 +27,15 @@ d3.json(getURL(id), function (data) {
     .attr('width', 240)
     .attr('height', 255)
     .attr('fill', '#fff')
+    .attr("opacity", (state == 6 || state == 8) ? 1 : 0);
 
   var img = d3.select("svg").selectAll("image").data([0]).enter().append("svg:image")
     .attr("href", (data["images"] != null && data["images"].length > 0) ? data["images"][data["images"].length - 1] : (data["image"] != null ? data["image"] : null))
     .attr("width", 200)
     .attr("height", 200)
     .attr("x", 152.5)
-    .attr("y", 75);
+    .attr("y", 75)
+    .attr("opacity", (state == 6 || state == 8) ? 1 : 0);
 
   var img_name = d3.select("svg").append("text")
     .attr("x", 250)
@@ -41,42 +43,16 @@ d3.json(getURL(id), function (data) {
     .attr("text-anchor", "middle")
     .attr("font-weight", 800)
     .attr("font-family", "Arial")
+    .attr("opacity", (state == 6 || state == 8) ? 1 : 0)
     .style("font-size", "14px")
-    .text(data["title"].substr(0, 28))
+    .text(data["title"].substr(0, 28));
 
   var stats = [];
-  stats.push(stat("Calories", nutrition["calories"], 450, 150));
-  stats.push(stat("Fats", gramsToInt(nutrition["fat"]), 450, 200));
-  stats.push(stat("Proteins", gramsToInt(nutrition["protein"]), 450, 250));
-  stats.push(stat("Sugars", getSugar(nutrition["nutrients"]), 750, 250));
-  stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 750, 200));
-
-  back_box = svg.append("rect")
-  .attr("rx", 6)
-  .attr("ry", 6)
-  .attr("x", 1100).attr("y", 40)
-  .attr("width", 75)
-  .attr("height", 37.5)
-  .attr("transform", function(d, i) { return "scale(" + (1 - d / 25) * 20 + ")"; })
-  .attr("stroke", "black").style("stroke-width", 2)
-  .style("fill", "#D06B6B")
-  .on("click", function() {
-    state = (state == 2 ? 1 : state - 2);
-    stats.forEach(statistic => {
-      statistic.attr("opacity", state == 6 ? 1 : 0)
-    })
-  d3.select("#calc").style("display", "block");
-  });
-    
-  back_txt = svg.append("text")
-    .attr("x", 1137.5).attr("y", 65)
-    .attr("fill", "black")
-    .attr("text-anchor", "middle")
-    .attr("font-weight", 800)
-    .attr("font-family", "Arial")
-    .style("font-size", "22px")
-    .text("Back");
-
+    stats.push(stat("Calories", nutrition["calories"], 450, 150));
+    stats.push(stat("Fats", gramsToInt(nutrition["fat"]), 450, 200));
+    stats.push(stat("Proteins", gramsToInt(nutrition["protein"]), 450, 250));
+    stats.push(stat("Sugars", getSugar(nutrition["nutrients"]), 750, 250));
+    stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 750, 200));
 
   var see_my_stats = d3.select("body").append("button")
     .on("click", () => {
@@ -107,6 +83,25 @@ d3.json(getURL(id), function (data) {
       })
       d3.select("#calc").style("display", state == 6 ? "block" : "none");
       svg.attr("height", state == 6 ? 350 : 700);
+    });
+
+  var go_back = d3.select("body").append("back_button")
+    .on("click", function() {
+      state = (state == 2 ? 1 : state - 2);
+
+      if(stats != null) {
+        stats.forEach(statistic => {
+          statistic.attr("opacity", state == 6 ? 1 : 0)
+        })
+      }
+      if(pies != null) {
+        pies.forEach(pie => {
+          pie.attr("opacity", state == 8 ? 1 : 0);
+        })
+      }
+      img_back.attr("opacity", (state == 6 || state == 8) ? 1 : 0);
+      img.attr("opacity", (state == 6 || state == 8) ? 1 : 0);
+      img_name.attr("opacity", (state == 6 || state == 8) ? 1 : 0);
     });
 });
 
