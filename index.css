@@ -30,9 +30,13 @@
   font-weight: 800px;
 }
 
+.back_row {
+  margin-left: 1200px;
+}
+
 #back_button {
   width: 75px;
-  height: 37.5;
+  height: 37.5px;
   background-color: rgb(216, 49, 49);
   font-size: 22px;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
