@@ -23,15 +23,6 @@ function piechart(type, food_value, daily_value, cx, cy) {
     .style("font-size", "22px")
     .text(type);
 
-  middle = g.append("text")
-    .attr("x", 0)
-    .attr("y", height / 2)
-    .attr("text-anchor", "middle")
-    .attr("font-weight", 800)
-    .attr("font-family", "Arial")
-    .style("font-size", "22px")
-    .text(((food / per_day) * 100).toFixed(2));
-
   tail = g.append("text")
     .attr("x", 0)
     .attr("y", height / 2 + 30)
@@ -84,6 +75,15 @@ function piechart(type, food_value, daily_value, cx, cy) {
       return color(i);
     })
     .attr("d", arc);
+  
+  middle = g.append("text")
+    .attr("x", 0 + 10)
+    .attr("y", height / 2 - 95)
+    .attr("text-anchor", "middle")
+    .attr("font-weight", 800)
+    .attr("font-family", "Arial")
+    .style("font-size", "22px")
+    .text(((food / per_day) * 100).toFixed(2) + "%");
 
   return g;
 }
