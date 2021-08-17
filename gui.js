@@ -8,8 +8,8 @@ const margin = {
 // height = * ;
 
 const id = 228341;
-var state = 2;
 
+var state = 0;
 
 data = {
   "id": 409777,
@@ -414,45 +414,17 @@ var svg = d3.select("svg");
 
 var nutrition = {}
 
-var img_back = d3.select("svg").append('rect')
-  .attr("rx", 15)
-  .attr("ry", 15)
-  .attr('x', 132.5)
-  .attr('y', 60)
-  .attr('width', 240)
-  .attr('height', 255)
-  .attr('fill', '#fff')
-  .attr("opacity", 0);
-
-var img = d3.select("svg").selectAll("image").data([0]).enter().append("svg:image")
-  .attr("width", 200)
-  .attr("height", 200)
-  .attr("x", 152.5)
-  .attr("y", 75)
-  .attr("opacity", 0);
-
-var img_name = d3.select("svg").append("text")
-  // .attr("id", "img_name")
-  .attr("x", 250)
-  .attr("y", 275)
-  .attr("dy", 0)
-  .attr('height', 255)
-  .attr('width', 240)
-  .attr("text-anchor", "middle")
-  .attr("font-weight", 800)
-  .attr("font-family", "'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif")
-  .attr("opacity", 0)
-  .style("font-size", "14px")
-
 var pies = [];
 var stats = [];
 
-var see_my_stats = d3.select("#search_button")
+var search_button = d3.select("#search_button")
   .on("click", function () {
     state = updateState(state, 0);
 
-    img.attr("href", (data["images"] != null && data["images"].length > 0) ? data["images"][data["images"].length - 1] : (data["image"] != null ? data["image"] : null))
-    img_name.text(data["title"]).call(wrap, 200);
+    //Create the Picture of the food
+    let image = (data["images"] != null && data["images"].length > 0) ? data["images"][data["images"].length - 1] : (data["image"] != null ? data["image"] : null);
+    var food_image = create_image(image, data["title"], 132.5, 60, false);
+    food_image.attr("opacity", (state == 2 || state == 3) ? 1 : 0);
 
     console.log(data);
     nutrition = data["nutrition"];
@@ -465,18 +437,42 @@ var see_my_stats = d3.select("#search_button")
     stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 750, 200));
 
     stats.forEach(statistic => {
-      statistic.attr("opacity", state == 6 ? 1 : 0);
+      statistic.attr("opacity", state == 2 ? 1 : 0);
     })
 
-    d3.select("#calc").style("display", state == 6 ? "block" : "none");
+    d3.select("#calc").style("display", state == 2 ? "block" : "none");
     d3.select("#search").style("display", state == 2 ? "block" : "none");
 
     img_back.attr("opacity", 1);
     img.attr("opacity", 1);
     img_name.attr("opacity", 1);
 
-    svg.attr("height", state == 6 ? 350 : (state == 8 ? 700 : 0));
+    svg.attr("height", state == 2 ? 350 : (state == 8 ? 700 : 0));
   });
+
+//STATE 0 VVV
+var resturaunts = ["Burger King", "Chick-Fil-A", "Chipotle", "Dominoes", "Dunkin' Donuts", "Five Guys",
+  "Hardee's", "Jimmy John's", "KFC", "McDonald's", "Panera Bread", "Papa John's", "Pizza Hut", "Sonic", "Starbucks",
+  "Subway", "Taco Bell", "Wendy's", "Whataburger"
+];
+
+let i = 0;
+var rest_img = [];
+
+resturaunts.forEach(rest => {
+  rest_img.push(create_image("resturaunt_pics/" + rest + ".png", rest, (i % 4) * 275 + 50, Math.floor(i / 4) * 275), true);
+  i++;
+})
+
+//STATE 1 VVV
+
+//DNE
+
+//STATE 2 VVV
+
+//STATE 3 VVV
+
+var pies = [];
 
 var see_my_stats = d3.select("#button")
   .on("click", function () {
@@ -499,36 +495,42 @@ var see_my_stats = d3.select("#button")
     pies.push(piechart("Carbohydrates", gramsToInt(nutrition["carbs"]), calc.carbs(), 1000, 515));
 
     pies.forEach(pie => {
-      pie.attr("opacity", state == 8 ? 1 : 0);
+      pie.attr("opacity", state == 3 ? 1 : 0);
     })
     stats.forEach(statistic => {
-      statistic.attr("opacity", state == 6 ? 1 : 0);
+      statistic.attr("opacity", state == 2 ? 1 : 0);
     })
-    d3.select("#calc").style("display", state == 6 ? "block" : "none");
-    svg.attr("height", state == 6 ? 350 : (state == 8 ? 700 : 0));
+    d3.select("#calc").style("display", state == 2 ? "block" : "none");
+    svg.attr("height", state == 2 ? 350 : (state == 8 ? 700 : 0));
   });
 
 var go_back = d3.select("#back_button")
+  .attr("opacity", 0)
   .on("click", function () {
-    state = updateState(state, 1);
+    state = prevState(state);
 
     if (stats != null) {
       stats.forEach(statistic => {
-        statistic.attr("opacity", state == 6 ? 1 : 0)
+        statistic.attr("opacity", state == 2 ? 1 : 0)
       })
     }
     if (pies != null) {
       pies.forEach(pie => {
-        pie.attr("opacity", state == 8 ? 1 : 0);
+        pie.attr("opacity", state == 3 ? 1 : 0);
       })
     }
-    img_back.attr("opacity", (state == 6 || state == 8) ? 1 : 0);
-    img.attr("opacity", (state == 6 || state == 8) ? 1 : 0);
-    img_name.attr("opacity", (state == 6 || state == 8) ? 1 : 0);
-    d3.select("#calc").style("display", state == 6 ? "block" : "none");
+
     d3.select("#search").style("display", state == 2 ? "block" : "none");
-    svg.attr("height", state == 6 ? 350 : (state == 8 ? 700 : 0));
+    svg.attr("height", state == 2 ? 350 : (state == 8 ? 700 : 0));
     go_back.style("display", state == 1 ? "none" : "block")
+
+    rest_img.forEach(place => {
+      place.attr("opacity", (state == 0) ? 1 : 0);
+    })
+    food_image.attr("opacity", (state == 2 || state == 3) ? 1 : 0);
+
+    d3.select("#calc").style("display", state == 2 ? "block" : "none");
+    svg.attr("height", state == 2 ? 350 : 700);
 
   });
 // });
@@ -536,19 +538,13 @@ var go_back = d3.select("#back_button")
 function gramsToInt(grams) {
   return Number(grams.substr(0, grams.length - 1));
 }
-const next_state = {
-  1: 2,
-  2: 6,
-  6: 8
-}
-const prev_state = {
-  8: 6,
-  6: 2,
-  2: 1
+
+function prevState(state) {
+  if (state > 0) state--;
 }
 
-function updateState(state, back) {
-  return (back > 0) ? prev_state[state] : next_state[state];
+function nextState(state) {
+  if (state < 3) state++;
 }
 
 function getSugar(nutrients) {
@@ -568,9 +564,41 @@ function stat(type, food_value, cx, cy) {
     .attr("y", 0)
     .attr("text-anchor", "front")
     .attr("font-weight", 800)
-    .attr("font-family", "Arial")
+    .attr("font-family", "'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif")
     .style("font-size", "22px")
     .text(type + " : " + food_value + (type == "Calories" ? "" : " g"));
+
+  return g;
+}
+
+function create_image(image, title, x, y, sourced) {
+  var svg = d3.select("svg"),
+    g = svg.append("g");
+
+  img_back = g.append('rect')
+    .attr("rx", 15)
+    .attr("ry", 15)
+    .attr('x', x)
+    .attr('y', y)
+    .attr('width', 240)
+    .attr('height', 255)
+    .attr('fill', '#fff')
+
+  img = g.selectAll("image").data([0]).enter().append("svg:image")
+    .attr((sourced) ? "src" : "href", image)
+    .attr("width", 200)
+    .attr("height", 200)
+    .attr("x", x + 20)
+    .attr("y", y + 15)
+
+  img_name = g.append("text")
+    .attr("x", x + 125)
+    .attr("y", y + 240)
+    .attr("text-anchor", "middle")
+    .attr("font-weight", 800)
+    .attr("font-family", "'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif")
+    .style("font-size", "14px")
+    .text(title).call(wrap, 200);
 
   return g;
 }
