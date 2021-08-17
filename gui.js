@@ -8,7 +8,7 @@ const margin = {
 // height = * ;
 
 const id = 228341;
-var state = 1;
+var state = 4;
 
 //d3.json(getURL(id), function (data) {
 data = {
@@ -415,33 +415,10 @@ var svg = d3.select("svg");
 
 const nutrition = data["nutrition"];
 
-var img_back = d3.select("svg").append('rect')
-  .attr("rx", 15)
-  .attr("ry", 15)
-  .attr('x', 132.5)
-  .attr('y', 60)
-  .attr('width', 240)
-  .attr('height', 255)
-  .attr('fill', '#fff')
-  .attr("opacity", (state == 2 || state == 3) ? 1 : 0);
-
-var img = d3.select("svg").selectAll("image").data([0]).enter().append("svg:image")
-  .attr("href", (data["images"] != null && data["images"].length > 0) ? data["images"][data["images"].length - 1] : (data["image"] != null ? data["image"] : null))
-  .attr("width", 200)
-  .attr("height", 200)
-  .attr("x", 152.5)
-  .attr("y", 75)
-  .attr("opacity", (state == 2 || state == 3) ? 1 : 0);
-
-var img_name = d3.select("svg").append("text")
-  .attr("x", 250)
-  .attr("y", 300)
-  .attr("text-anchor", "middle")
-  .attr("font-weight", 800)
-  .attr("font-family", "Arial")
-  .attr("opacity", (state == 2 || state == 3) ? 1 : 0)
-  .style("font-size", "14px")
-  .text(data["title"].substr(0, 28));
+//Create the Picture of the food
+let image = (data["images"] != null && data["images"].length > 0) ? data["images"][data["images"].length - 1] : (data["image"] != null ? data["image"] : null);
+var food_image = create_image( image, data["title"], 132.5, 60);
+food_image.attr("opacity", (state == 2 || state == 3) ? 1 : 0);
 
 var pies = [];
 
@@ -486,7 +463,7 @@ console.log(see_my_stats);
 
 var go_back = d3.select("#back_button")
   .on("click", function () {
-    state--;
+    state = (state == 0) ? state : state - 1;
 
     if (stats != null) {
       stats.forEach(statistic => {
@@ -498,9 +475,7 @@ var go_back = d3.select("#back_button")
         pie.attr("opacity", state == 3 ? 1 : 0);
       })
     }
-    img_back.attr("opacity", (state == 2 || state == 3) ? 1 : 0);
-    img.attr("opacity", (state == 2 || state == 3) ? 1 : 0);
-    img_name.attr("opacity", (state == 2 || state == 3) ? 1 : 0);
+    food_image.attr("opacity", (state == 2 || state == 3) ? 1 : 0);
     d3.select("#calc").style("display", state == 2 ? "block" : "none");
     svg.attr("height", state == 2 ? 350 : 700);
 
@@ -535,6 +510,38 @@ function stat(type, food_value, cx, cy) {
     .attr("font-family", "Arial")
     .style("font-size", "22px")
     .text(type + " : " + food_value + (type == "Calories" ? "" : " g"));
+
+  return g;
+}
+
+function create_image(image, title, x, y) {
+  var svg = d3.select("svg"),
+  g = svg.append("g");
+  
+  img_back = g.append('rect')
+  .attr("rx", 15)
+  .attr("ry", 15)
+  .attr('x', x)
+  .attr('y', y)
+  .attr('width', 240)
+  .attr('height', 255)
+  .attr('fill', '#fff')
+
+  img = g.selectAll("image").data([0]).enter().append("svg:image")
+  .attr("href", image)
+  .attr("width", 200)
+  .attr("height", 200)
+  .attr("x", x + 20)
+  .attr("y", y + 15)
+
+  img_name = g.append("text")
+  .attr("x", x + 117.5)
+  .attr("y", y + 240)
+  .attr("text-anchor", "middle")
+  .attr("font-weight", 800)
+  .attr("font-family", "Arial")
+  .style("font-size", "14px")
+  .text(title.substr(0, 25));
 
   return g;
 }
