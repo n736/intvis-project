@@ -3,6 +3,11 @@
   width: 175px;
 }
 
+.back_column {
+  float: left;
+  width: 75px;
+}
+
 .row {
   margin-left: 132.5px;
 }
@@ -45,13 +50,14 @@
 }
 
 #search_button {
-  width: 300px;
+  width: 500px;
   height: 80px;
-  background-color: rgb(129, 145, 235);
-  font-size: 32px;
+  background-color: rgb(159, 170, 235);
+  font-size: 30px;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  border-radius: 69px;
+  border-radius: 60px;
   border-style: solid;
+  border-width: 3.5px;
   border-color: black;
 }
 

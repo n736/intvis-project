@@ -31,12 +31,12 @@
 
 <body style="background-color: rgb(234, 240, 240);">
   <div class="back_row">
-    <div class="column">
+    <div class="back_column">
       <button id="back_button" style="display: none"><b>Back</b></button>
     </div>
   </div>
   <svg width="1200" height="0" id="visualization"></svg>
-  <svg width="1200" height="1375" id="start"></svg>
+  <svg width="1200" height="1450" id="start"></svg>
   <div class="row" id="calc" style="display: none">
     <div class="column">
       <label for="height">Height: </label>
@@ -84,9 +84,9 @@
 
   <div id="search" style="display: none;">
     <center>
-      <input type="text" placeholder="FOOD NAME HERE!" id="search_input" name="search_input"
-        onkeydown="this.style.width = ((this.value.length + 1) * 16 + 20) + 'px';"><br><br>
-      <button id="search_button"><b>Search</b></button>
+      <input type="text" placeholder="(Food Name Here)" id="search_input" name="search_input"
+        onkeydown="this.style.width = Math.min( 750, Math.max( (this.value.length + 1) * 18 + 40, 300 ) ) + 'px';"><br><br>
+      <button id="search_button"><b>Click Me For Nutrition Facts</b></button>
     </center>
   </div>
 
