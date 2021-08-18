@@ -7,8 +7,6 @@ const margin = {
 // width = * ,
 // height = * ;
 
-const id = 228341;
-
 var state = 0;
 
 data = {
@@ -410,21 +408,44 @@ data = {
 
 var calc = null
 
-const heights = [1375, 0, 350, 700]
+const heights = [0, 0, 350, 700]
 
-var svg = d3.select("svg");
+var svg = d3.select("#visualization");
 
 var nutrition = {}
 
 var pies = [];
 var stats = [];
 
+var current_rest = "";
+
 var food_image;
 
 var search_button = d3.select("#search_button")
   .on("click", function () {
+    let current_food = d3.select("#search_input").node().value;
+    if (typeof current_food == "undefined" || current_food == "") {
+      d3.select("#search_button").style("color", "red");
+      return;
+    }
+    d3.select("#search_button").style("color", "black");
+
     state = nextState(state);
 
+    // search with current_rest and current_food for ID
+    /* d3.json(searchFood(current_rest, current_food), (data) => {
+      let id = -1
+      console.log(data);
+      menuItems = data["menuItems"];
+      if (menuItems.length < 1) return;
+      // if (menuItems[0]["title"].toLowerCase() == food.toLowerCase() && menuItems[0][""].toLowerCase() == rest.toLowerCase())
+      id = menuItems[0]["id"];
+      console.log(id); */
+    // else {
+    //   // search all items for it
+    // }
+    // otherwise set id to -2 to break the while loop afterwards
+    // d3.json(searchID(id), function (data) {
     //Create the Picture of the food
     let image = (data["images"] != null && data["images"].length > 0) ? data["images"][data["images"].length - 1] : (data["image"] != null ? data["image"] : null);
     food_image = create_image(image, data["title"], 132.5, 60, false);
@@ -433,12 +454,15 @@ var search_button = d3.select("#search_button")
     console.log(data);
     nutrition = data["nutrition"];
 
-    // d3.json(getURL(id), function (data) {
+    stats = [];
+    d3.select("#stats").remove();
     stats.push(stat("Calories", nutrition["calories"], 450, 150));
     stats.push(stat("Fats", gramsToInt(nutrition["fat"]), 450, 200));
     stats.push(stat("Proteins", gramsToInt(nutrition["protein"]), 450, 250));
     stats.push(stat("Sugars", getSugar(nutrition["nutrients"]), 750, 250));
     stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 750, 200));
+    //   })
+    // })
 
     stats.forEach(statistic => {
       statistic.attr("opacity", state == 2 ? 1 : 0);
@@ -451,7 +475,7 @@ var search_button = d3.select("#search_button")
   });
 
 //STATE 0 VVV
-var resturaunts = ["Burger King", "Chick-Fil-A", "Chipotle", "Dominoes", "Dunkin' Donuts", "Five Guys",
+var resturaunts = ["Burger King", "Chick-fil-A", "Chipotle", "Dominoes", "Dunkin' Donuts", "Five Guys",
   "Hardee's", "Jimmy John's", "KFC", "McDonald's", "Panera Bread", "Papa John's", "Pizza Hut", "Sonic", "Starbucks",
   "Subway", "Taco Bell", "Wendy's", "Whataburger"
 ];
@@ -461,15 +485,14 @@ var rest_g_arr = []
 resturaunts.forEach(rest => {
   let rest_g = create_image("resturaunt_pics/" + rest + ".png", rest, (i % 4) * 275 + 50, Math.floor(i / 4) * 275, true);
   rest_g_arr.push(rest_g);
-  rest_g.attr("class", "clickable");
+  rest_g.attr("id", resturaunts[i]);
   rest_g.on("click", () => {
     state = nextState(state);
+    current_rest = rest_g.attr("id");
     d3.select("#search").style("display", "block");
     go_back.style("display", "block")
 
-    rest_g_arr.forEach(rest => {
-      rest.attr("opacity", 0)
-    });
+    d3.select("#start").attr("height", 0);
 
     d3.select("#search").style("display", "block");
     svg.attr("height", heights[state]);
@@ -485,10 +508,17 @@ resturaunts.forEach(rest => {
 
 //STATE 3 VVV
 
-var pies = [];
-
 var see_my_stats = d3.select("#button")
   .on("click", function () {
+    if (typeof d3.select("#weight").node().value == "undefined" ||
+      d3.select("#weight").node().value == "" ||
+      typeof d3.select("#heightft").node().value == "undefined" ||
+      d3.select("#heightft").node().value == "" ||
+      typeof d3.select("#age").node().value == "undefined" ||
+      d3.select("#age").node().value == "") {
+      d3.select("#button").style("color", "red");
+      return;
+    }
     try {
       calc = new Calculator(
         Number(d3.select("#weight").node().value),
@@ -515,10 +545,10 @@ var see_my_stats = d3.select("#button")
 
     pies.forEach(pie => {
       pie.attr("opacity", state == 3 ? 1 : 0);
-    })
+    });
     stats.forEach(statistic => {
       statistic.attr("opacity", state == 2 ? 1 : 0);
-    })
+    });
     d3.select("#calc").style("display", state == 2 ? "block" : "none");
     svg.attr("height", heights[state]);
   });
@@ -541,10 +571,7 @@ var go_back = d3.select("#back_button")
     d3.select("#search").style("display", state == 1 ? "block" : "none");
     go_back.style("display", state == 0 ? "none" : "block")
 
-    rest_g_arr.forEach(rest => {
-      rest.attr("opacity", state == 0 ? 1 : 0)
-      rest.style("pointerEvents", state == 0 ? "auto" : "none")
-    });
+    d3.select("#start").attr("height", state == 0 ? 1375 : 0);
 
     if (food_image != null) {
       food_image.attr("opacity", (state == 2 || state == 3) ? 1 : 0);
@@ -553,7 +580,6 @@ var go_back = d3.select("#back_button")
     d3.select("#calc").style("display", state == 2 ? "block" : "none");
     svg.attr("height", heights[state]);
   });
-// });
 
 function gramsToInt(grams) {
   return Number(grams.substr(0, grams.length - 1));
@@ -561,10 +587,12 @@ function gramsToInt(grams) {
 
 function prevState(state) {
   if (state > 0) return state - 1;
+  return state;
 }
 
 function nextState(state) {
   if (state < 3) return state + 1;
+  return state;
 }
 
 function getSugar(nutrients) {
@@ -576,8 +604,8 @@ function getSugar(nutrients) {
 }
 
 function stat(type, food_value, cx, cy) {
-  var svg = d3.select("svg"),
-    g = svg.append("g").attr("transform", "translate(" + cx + "," + cy + ")");
+  var svg = d3.select("#visualization"),
+    g = svg.append("g").attr("id", "stats").attr("transform", "translate(" + cx + "," + cy + ")");
 
   msg = g.append("text")
     .attr("x", 0)
@@ -592,7 +620,7 @@ function stat(type, food_value, cx, cy) {
 }
 
 function create_image(image, title, x, y, sourced) {
-  var svg = d3.select("svg"),
+  let svg = sourced ? d3.select("#start") : d3.select("#visualization"),
     g = svg.append("g");
 
   img_back = g.append('rect')
@@ -605,7 +633,7 @@ function create_image(image, title, x, y, sourced) {
     .attr('fill', '#fff')
 
   img = g.selectAll("image").data([0]).enter().append("svg:image")
-    .attr((sourced) ? "src" : "href", image)
+    .attr("href", image)
     .attr("width", 200)
     .attr("height", 200)
     .attr("x", x + 20)
@@ -613,7 +641,8 @@ function create_image(image, title, x, y, sourced) {
 
   img_name = g.append("text")
     .attr("x", x + 125)
-    .attr("y", y + 240)
+    .attr("y", y + (sourced ? 240 : 215))
+    .attr("dy", 0)
     .attr("text-anchor", "middle")
     .attr("font-weight", 800)
     .attr("font-family", "'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif")

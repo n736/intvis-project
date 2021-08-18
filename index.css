@@ -65,7 +65,3 @@
   border-color: black;
   text-align: center;
 }
-
-:not(.clickable | button) {
-  pointer-events: none;
-}

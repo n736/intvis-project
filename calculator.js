@@ -40,31 +40,31 @@ class Calculator {
     }
 
     if (this.losing_weight) {
-      if(this.sex == "male") {
-        cals_per_day = cals_per_day * (0.7 + (0.01 * (this.weight_kg/12.5) ) );
+      if (this.sex == "male") {
+        cals_per_day = cals_per_day * (0.7 + (0.01 * (this.weight_kg / 12.5)));
 
-        if(this.act_lvl == "Light") {
+        if (this.act_lvl == "Light") {
           cals_per_day = cals_per_day * 1.04
-        } else if(this.act_lvl == "Moderate") {
+        } else if (this.act_lvl == "Moderate") {
           cals_per_day = cals_per_day * 1.06;
-        } else if(this.act_lvl == "Active") {
+        } else if (this.act_lvl == "Active") {
           cals_per_day = cals_per_day * 1.07;
-        } else if(this.act_lvl == "Very Active") {
+        } else if (this.act_lvl == "Very Active") {
           cals_per_day = cals_per_day * 1.09;
         } else {
           cals_per_day = cals_per_day * 1.11;
         }
 
       } else {
-        cals_per_day = cals_per_day * (0.66 + (0.01 * (this.weight_kg/10) ) );
+        cals_per_day = cals_per_day * (0.66 + (0.01 * (this.weight_kg / 10)));
 
-        if(this.act_lvl == "Light") {
+        if (this.act_lvl == "Light") {
           cals_per_day = cals_per_day * 1.04
-        } else if(this.act_lvl == "Moderate") {
+        } else if (this.act_lvl == "Moderate") {
           cals_per_day = cals_per_day * 1.0675;
-        } else if(this.act_lvl == "Active") {
+        } else if (this.act_lvl == "Active") {
           cals_per_day = cals_per_day * 1.0825;
-        } else if(this.act_lvl == "Very Active") {
+        } else if (this.act_lvl == "Very Active") {
           cals_per_day = cals_per_day * 1.105;
         } else {
           cals_per_day = cals_per_day * 1.13;
@@ -119,7 +119,7 @@ class Calculator {
       protein_per_day = 1.2 * this.weight_kg;
     } else if (this.act_lvl == "Active") {
       protein_per_day = 1.4 * this.weight_kg;
-    } else if(this.act_lvl == "Very Active") {
+    } else if (this.act_lvl == "Very Active") {
       protein_per_day = 1.6 * this.weight_kg;
     } else {
       protein_per_day = 1.8 * this.weight_kg;

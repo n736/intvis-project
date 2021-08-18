@@ -9,8 +9,14 @@ const hostname = 'api.spoonacular.com';
 const port = 443;
 const apiKey = 'd7ac59ee3c654bf7b4d681e2ac11ffad';
 
-function getURL(id) {
+function searchID(id) {
   let path = `/food/menuItems/${id}?apiKey=${apiKey}`
+  return `https://${hostname}${path}`;
+}
+
+function searchFood(rest, food) {
+  let query = `${rest} ${food}`
+  let path = `/food/menuItems/search?query=${query}&number=1&apiKey=${apiKey}`
   return `https://${hostname}${path}`;
 }
 
