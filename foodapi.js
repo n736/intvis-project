@@ -14,9 +14,9 @@ function searchID(id) {
   return `https://${hostname}${path}`;
 }
 
-function searchFood(rest, food) {
+function searchFood(rest, food, number) {
   let query = `${rest} ${food}`
-  let path = `/food/menuItems/search?query=${query}&number=1&apiKey=${apiKey}`
+  let path = `/food/menuItems/search?query=${query}&number=${number}&apiKey=${apiKey}`
   return `https://${hostname}${path}`;
 }
 

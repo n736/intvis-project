@@ -433,25 +433,84 @@ var search_button = d3.select("#search_button")
     state = nextState(state);
 
     // search with current_rest and current_food for ID
-    /* d3.json(searchFood(current_rest, current_food), (data) => {
-      let id = -1
+    /* d3.json(searchFood(current_rest, current_food, 1), (data) => {
       console.log(data);
       menuItems = data["menuItems"];
       if (menuItems.length < 1) return;
-      // if (menuItems[0]["title"].toLowerCase() == food.toLowerCase() && menuItems[0][""].toLowerCase() == rest.toLowerCase())
-      id = menuItems[0]["id"];
-      console.log(id); */
+      if (menuItems[0]["title"].toLowerCase() == current_food.toLowerCase() &&
+        menuItems[0]["restaurantChain"].toLowerCase() == current_rest.toLowerCase()) {
+        d3.json(searchID(menuItems[0]["id"]), function (data) {
+          //Create the Picture of the food
+          let image = (data["images"] != null && data["images"].length > 0) ? data["images"][data["images"].length - 1] : (data["image"] != null ? data["image"] : null);
+          food_image = create_image(image, data["title"], 132.5, 60, false);
+          food_image.attr("opacity", (state == 2 || state == 3) ? 1 : 0);
+
+          console.log(data);
+          nutrition = data["nutrition"];
+
+          stats = [];
+          stats.push(stat("Calories", nutrition["calories"], 450, 150));
+          stats.push(stat("Fats", gramsToInt(nutrition["fat"]), 450, 200));
+          stats.push(stat("Proteins", gramsToInt(nutrition["protein"]), 450, 250));
+          stats.push(stat("Sugars", getSugar(nutrition["nutrients"]), 750, 250));
+          stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 750, 200));
+        })
+      } else {
+        d3.json(searchFood(current_rest, current_food, 100), (data) => {
+          console.log(data);
+          menuItems = data["menuItems"];
+          let found = false;
+          menuItems.forEach(item => {
+            if (item["title"].toLowerCase() == current_food.toLowerCase() &&
+              item["restaurantChain"].toLowerCase() == current_rest.toLowerCase()) {
+              found = true;
+              d3.json(searchID(item["id"]), function (data) {
+                //Create the Picture of the food
+                let image = (data["images"] != null && data["images"].length > 0) ? data["images"][data["images"].length - 1] : (data["image"] != null ? data["image"] : null);
+                food_image = create_image(image, data["title"], 132.5, 60, false);
+                food_image.attr("opacity", (state == 2 || state == 3) ? 1 : 0);
+
+                console.log(data);
+                nutrition = data["nutrition"];
+
+                stats = [];
+                d3.select("#stats").remove();
+                stats.push(stat("Calories", nutrition["calories"], 450, 150));
+                stats.push(stat("Fats", gramsToInt(nutrition["fat"]), 450, 200));
+                stats.push(stat("Proteins", gramsToInt(nutrition["protein"]), 450, 250));
+                stats.push(stat("Sugars", getSugar(nutrition["nutrients"]), 750, 250));
+                stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 750, 200));
+              })
+            }
+          })
+          if (!found) {
+            d3.json(searchID(menuItems[0]["id"]), function (data) {
+              //Create the Picture of the food
+              let image = (data["images"] != null && data["images"].length > 0) ? data["images"][data["images"].length - 1] : (data["image"] != null ? data["image"] : null);
+              food_image = create_image(image, data["title"], 132.5, 60, false);
+              food_image.attr("opacity", (state == 2 || state == 3) ? 1 : 0);
+
+              console.log(data);
+              nutrition = data["nutrition"];
+
+              stats = [];
+              d3.select("#stats").remove();
+              stats.push(stat("Calories", nutrition["calories"], 450, 150));
+              stats.push(stat("Fats", gramsToInt(nutrition["fat"]), 450, 200));
+              stats.push(stat("Proteins", gramsToInt(nutrition["protein"]), 450, 250));
+              stats.push(stat("Sugars", getSugar(nutrition["nutrients"]), 750, 250));
+              stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 750, 200));
+            })
+          }
+        })
+      } 
     // else {
     //   // search all items for it
     // }
     // otherwise set id to -2 to break the while loop afterwards
-    // d3.json(searchID(id), function (data) {
-    //Create the Picture of the food
-    let image = (data["images"] != null && data["images"].length > 0) ? data["images"][data["images"].length - 1] : (data["image"] != null ? data["image"] : null);
-    food_image = create_image(image, data["title"], 132.5, 60, false);
-    food_image.attr("opacity", (state == 2 || state == 3) ? 1 : 0);
 
-    console.log(data);
+  }) */
+
     nutrition = data["nutrition"];
 
     stats = [];
@@ -461,8 +520,6 @@ var search_button = d3.select("#search_button")
     stats.push(stat("Proteins", gramsToInt(nutrition["protein"]), 450, 250));
     stats.push(stat("Sugars", getSugar(nutrition["nutrients"]), 750, 250));
     stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 750, 200));
-    //   })
-    // })
 
     stats.forEach(statistic => {
       statistic.attr("opacity", state == 2 ? 1 : 0);
@@ -604,8 +661,9 @@ function getSugar(nutrients) {
 }
 
 function stat(type, food_value, cx, cy) {
+  d3.select(`stats-${type}`).remove();
   var svg = d3.select("#visualization"),
-    g = svg.append("g").attr("id", "stats").attr("transform", "translate(" + cx + "," + cy + ")");
+    g = svg.append("g").attr("id", `stats-${type}`).attr("transform", "translate(" + cx + "," + cy + ")");
 
   msg = g.append("text")
     .attr("x", 0)
