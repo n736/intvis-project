@@ -1,4 +1,4 @@
-function piechart(type, food_value, daily_value, cx, cy) {
+function piechart(type, food_value, daily_value, cx, cy, color) {
   // Amount in the food goes here
   let food = food_value;
   //Amount per day goes here
@@ -14,22 +14,31 @@ function piechart(type, food_value, daily_value, cx, cy) {
     radius = Math.min(width, height) / 2,
     g = svg.append("g").attr("transform", "translate(" + cx + "," + cy + ")");
 
+  background = g.append('rect')
+    .attr("rx", 15)
+    .attr("ry", 15)
+    .attr('x', -120)
+    .attr('y', -127.5)
+    .attr('width', 240)
+    .attr('height', 255)
+    .attr('fill', color);
+
   header = g.append("text")
     .attr("x", 0)
-    .attr("y", -height / 2 - 15)
+    .attr("y", -height / 2 - 7.5)
     .attr("text-anchor", "middle")
     .attr("font-weight", 800)
     .attr("font-family", "Arial")
-    .style("font-size", "22px")
+    .style("font-size", "16px")
     .text(type);
 
   tail = g.append("text")
     .attr("x", 0)
-    .attr("y", height / 2 + 30)
+    .attr("y", height / 2 + 17.5)
     .attr("text-anchor", "middle")
     .attr("font-weight", 800)
     .attr("font-family", "Arial")
-    .style("font-size", "22px")
+    .style("font-size", "16px")
     .text("(" + food + (type == "Calories" ? "" : "g") + " out of " + daily_value.toFixed(0) + (type == "Calories" ? "" : "g") + ")");
 
 

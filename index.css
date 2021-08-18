@@ -3,6 +3,11 @@
   width: 175px;
 }
 
+.back_column {
+  float: left;
+  width: 75px;
+}
+
 .row {
   margin-left: 132.5px;
 }
