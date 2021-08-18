@@ -639,7 +639,11 @@ var go_back = d3.select("#back_button")
     svg.attr("height", heights[state]);
   });
 
-var quantityUp = d3.select("#up_button")
+var quantityUp = svg.append("rect")
+  .attr("width", 75)
+  .attr("height", 75)
+  .attr("x", 500)
+  .attr("y", 100)
   .on("click", () => {
     quantity = incrementQuantity(quantity);
 
@@ -657,9 +661,13 @@ var quantityUp = d3.select("#up_button")
     });
   });
 
-var quantityDown = d3.select("#down_button")
+var quantityDown = svg.append("rect")
+  .attr("width", 75)
+  .attr("height", 75)
+  .attr("x", 500)
+  .attr("y", 200)
   .on("click", () => {
-    quantity = incrementQuantity(quantity);
+    quantity = decrementQuantity(quantity);
 
     pies.forEach(pie => {
       pie.remove();
