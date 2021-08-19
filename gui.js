@@ -620,7 +620,6 @@ var see_my_stats = d3.select("#button")
     svg.attr("height", heights[state]);
 
     d3.select("#quantityButtons").attr("opacity", 1);
-    d3.select("#MinusButton").attr("opacity", 1);
   });
 
 var go_back = d3.select("#back_button")
@@ -641,7 +640,7 @@ var go_back = d3.select("#back_button")
     d3.select("#search").style("display", state == 1 ? "block" : "none");
     go_back.style("display", state == 0 ? "none" : "block")
 
-    d3.select("#start").attr("height", state == 0 ? 1375 : 0);
+    d3.select("#start").attr("height", state == 0 ? 1450 : 0);
 
     if (food_image != null) {
       food_image.attr("opacity", (state == 2 || state == 3) ? 1 : 0);
@@ -651,7 +650,6 @@ var go_back = d3.select("#back_button")
     svg.attr("height", heights[state]);
 
     d3.select("#quantityButtons").attr("opacity", 0);
-    d3.select("#MinusButton").attr("opacity", 0);
   });
 
 var quantityButtons = svg.append("g")
@@ -702,7 +700,7 @@ quantityDown = quantityButtons.append("rect")
   .attr("x", 630)
   .attr("y", 188)
   .attr("fill", "#fff");
-plus_img = quantityButtons.selectAll("image").data([0]).enter().append("svg:image")
+plus_img = quantityButtons.append("svg:image")
   .attr("href", "resturaunt_pics/plus.png")
   .attr("width", 50)
   .attr("height", 50)
@@ -726,10 +724,7 @@ plus_img = quantityButtons.selectAll("image").data([0]).enter().append("svg:imag
     });
   });
 
-var MinusButton = svg.append("g")
-  .attr("id", "MinusButton")
-  .attr("opacity", 0);
-minus_img = MinusButton.selectAll("image").data([0]).enter().append("svg:image")
+quantityButtons.append("svg:image")
   .attr("href", "resturaunt_pics/minus.png")
   .attr("width", 40)
   .attr("height", 40)
@@ -797,6 +792,7 @@ function stat(type, food_value, cx, cy, color) {
     .attr('width', 240)
     .attr('height', 60)
     .attr('fill', color)
+    .style('pointer-events', 'none')
 
   msg = g.append("text")
     .attr("x", cx + 120)
@@ -805,7 +801,8 @@ function stat(type, food_value, cx, cy, color) {
     .attr("font-weight", 300)
     .attr("font-family", "'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif")
     .style("font-size", "22px")
-    .text(type + " : " + food_value + (type == "Calories" ? "" : "g"));
+    .text(type + " : " + food_value + (type == "Calories" ? "" : "g"))
+    .style('pointer-events', 'none');
 
   return g;
 }
