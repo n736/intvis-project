@@ -419,6 +419,8 @@ var stats = [];
 
 var current_rest = "";
 
+var quantity = 1;
+
 var food_image;
 var rest_image;
 
@@ -434,37 +436,97 @@ var search_button = d3.select("#search_button")
     state = nextState(state);
 
     // search with current_rest and current_food for ID
-    /* d3.json(searchFood(current_rest, current_food), (data) => {
-      let id = -1
+    /* d3.json(searchFood(current_rest, current_food, 1), (data) => {
       console.log(data);
       menuItems = data["menuItems"];
       if (menuItems.length < 1) return;
-      // if (menuItems[0]["title"].toLowerCase() == food.toLowerCase() && menuItems[0][""].toLowerCase() == rest.toLowerCase())
-      id = menuItems[0]["id"];
-      console.log(id); */
+      if (menuItems[0]["title"].toLowerCase() == current_food.toLowerCase() &&
+        menuItems[0]["restaurantChain"].toLowerCase() == current_rest.toLowerCase()) {
+        d3.json(searchID(menuItems[0]["id"]), function (data) {
+          //Create the Picture of the food
+          let image = (data["images"] != null && data["images"].length > 0) ? data["images"][data["images"].length - 1] : (data["image"] != null ? data["image"] : null);
+          food_image = create_image(image, data["title"], 132.5, 60, false);
+          food_image.attr("opacity", (state == 2 || state == 3) ? 1 : 0);
+          
+
+          console.log(data);
+          nutrition = data["nutrition"];
+
+          stats = [];
+          stats.push(stat("Calories", nutrition["calories"], 450, 150));
+          stats.push(stat("Fats", gramsToInt(nutrition["fat"]), 450, 200));
+          stats.push(stat("Proteins", gramsToInt(nutrition["protein"]), 450, 250));
+          stats.push(stat("Sugars", getSugar(nutrition["nutrients"]), 750, 250));
+          stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 750, 200));
+        })
+      } else {
+        d3.json(searchFood(current_rest, current_food, 100), (data) => {
+          console.log(data);
+          menuItems = data["menuItems"];
+          let found = false;
+          menuItems.forEach(item => {
+            if (item["title"].toLowerCase() == current_food.toLowerCase() &&
+              item["restaurantChain"].toLowerCase() == current_rest.toLowerCase()) {
+              found = true;
+              d3.json(searchID(item["id"]), function (data) {
+                //Create the Picture of the food
+                let image = (data["images"] != null && data["images"].length > 0) ? data["images"][data["images"].length - 1] : (data["image"] != null ? data["image"] : null);
+                food_image = create_image(image, data["title"], 132.5, 60, false);
+                food_image.attr("opacity", (state == 2 || state == 3) ? 1 : 0);
+
+                console.log(data);
+                nutrition = data["nutrition"];
+
+                stats = [];
+                d3.select("#stats").remove();
+                stats.push(stat("Calories", nutrition["calories"], 450, 150));
+                stats.push(stat("Fats", gramsToInt(nutrition["fat"]), 450, 200));
+                stats.push(stat("Proteins", gramsToInt(nutrition["protein"]), 450, 250));
+                stats.push(stat("Sugars", getSugar(nutrition["nutrients"]), 750, 250));
+                stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 750, 200));
+              })
+            }
+          })
+          if (!found) {
+            d3.json(searchID(menuItems[0]["id"]), function (data) {
+              //Create the Picture of the food
+              let image = (data["images"] != null && data["images"].length > 0) ? data["images"][data["images"].length - 1] : (data["image"] != null ? data["image"] : null);
+              food_image = create_image(image, data["title"], 132.5, 60, false);
+              food_image.attr("opacity", (state == 2 || state == 3) ? 1 : 0);
+
+              console.log(data);
+              nutrition = data["nutrition"];
+
+              stats = [];
+              d3.select("#stats").remove();
+              stats.push(stat("Calories", nutrition["calories"], 450, 150));
+              stats.push(stat("Fats", gramsToInt(nutrition["fat"]), 450, 200));
+              stats.push(stat("Proteins", gramsToInt(nutrition["protein"]), 450, 250));
+              stats.push(stat("Sugars", getSugar(nutrition["nutrients"]), 750, 250));
+              stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 750, 200));
+            })
+          }
+        })
+      } 
     // else {
     //   // search all items for it
     // }
     // otherwise set id to -2 to break the while loop afterwards
-    // d3.json(searchID(id), function (data) {
-    //Create the Picture of the food
-    let image = (data["images"] != null && data["images"].length > 0) ? data["images"][data["images"].length - 1] : (data["image"] != null ? data["image"] : null);
-    food_image = create_image(image, data["title"], 50 + 275 , 75, false, false);
-    rest_image = create_image( "resturaunt_pics/" + current_rest + ".png", current_rest, 50, 75, false, true);
+
+  }) */
+    rest_image = create_image("resturaunt_pics/" + current_rest + ".png", current_rest, 50, 75, false, true);
     stats_title = create_title("Nutrition Facts", "#visualization")
 
-    console.log(data);
     nutrition = data["nutrition"];
 
     stats = [];
     d3.select("#stats").remove();
+
     stats.push(stat("Calories", nutrition["calories"], 325 + 275, 75, '#AA6BFF'));
     stats.push(stat("Fats", gramsToInt(nutrition["fat"]), 325 + 275, 172.5, '#FFB45A'));
     stats.push(stat("Proteins", gramsToInt(nutrition["protein"]), 325 + 275, 270, '#FF5959'));
     stats.push(stat("Sugars", getSugar(nutrition["nutrients"]), 600 + 275, 172.5, '#99ECE8'));
     stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 600 + 275, 270, '#6BE275'));
-    //   })
-    // })
 
     stats.forEach(statistic => {
       statistic.attr("opacity", state == 2 ? 1 : 0);
@@ -536,11 +598,11 @@ var see_my_stats = d3.select("#button")
 
     state = nextState(state);
 
-    pies.push(piechart("Calories", nutrition["calories"], calc.calories(), 720 + 275, 202.5, '#D8BAFF'));
-    pies.push(piechart("Fats", gramsToInt(nutrition["fat"]), calc.fats(), 170, 480, '#FFCD91'));
-    pies.push(piechart("Proteins", gramsToInt(nutrition["protein"]), calc.proteins(), 445, 480, '#FFA5A5'));
-    pies.push(piechart("Sugars", getSugar(nutrition["nutrients"]), calc.sugars(), 995, 480, '#C8EFED'));
-    pies.push(piechart("Carbohydrates", gramsToInt(nutrition["carbs"]), calc.carbs(), 720, 480, '#A8E2AD'));
+    pies.push(piechart("Calories", quantity * nutrition["calories"], calc.calories(), 720 + 275, 202.5, '#D8BAFF'));
+    pies.push(piechart("Fats", quantity * gramsToInt(nutrition["fat"]), calc.fats(), 170, 480, '#FFCD91'));
+    pies.push(piechart("Proteins", quantity * gramsToInt(nutrition["protein"]), calc.proteins(), 445, 480, '#FFA5A5'));
+    pies.push(piechart("Sugars", quantity * getSugar(nutrition["nutrients"]), calc.sugars(), 995, 480, '#C8EFED'));
+    pies.push(piechart("Carbohydrates", quantity * gramsToInt(nutrition["carbs"]), calc.carbs(), 720, 480, '#A8E2AD'));
 
     pies.forEach(pie => {
       pie.attr("opacity", state == 3 ? 1 : 0);
@@ -580,6 +642,50 @@ var go_back = d3.select("#back_button")
     svg.attr("height", heights[state]);
   });
 
+var quantityUp = svg.append("rect")
+  .attr("width", 75)
+  .attr("height", 75)
+  .attr("x", 500)
+  .attr("y", 100)
+  .on("click", () => {
+    quantity = incrementQuantity(quantity);
+
+    pies.forEach(pie => {
+      pie.remove();
+    });
+    pies = [];
+    pies.push(piechart("Calories", quantity * nutrition["calories"], calc.calories(), 720 + 275, 202.5, '#D8BAFF'));
+    pies.push(piechart("Fats", quantity * gramsToInt(nutrition["fat"]), calc.fats(), 170, 480, '#FFCD91'));
+    pies.push(piechart("Proteins", quantity * gramsToInt(nutrition["protein"]), calc.proteins(), 445, 480, '#FFA5A5'));
+    pies.push(piechart("Sugars", quantity * getSugar(nutrition["nutrients"]), calc.sugars(), 995, 480, '#C8EFED'));
+    pies.push(piechart("Carbohydrates", quantity * gramsToInt(nutrition["carbs"]), calc.carbs(), 720, 480, '#A8E2AD'));
+    pies.forEach(pie => {
+      pie.attr("opacity", state == 3 ? 1 : 0);
+    });
+  });
+
+var quantityDown = svg.append("rect")
+  .attr("width", 75)
+  .attr("height", 75)
+  .attr("x", 500)
+  .attr("y", 200)
+  .on("click", () => {
+    quantity = decrementQuantity(quantity);
+
+    pies.forEach(pie => {
+      pie.remove();
+    });
+    pies = [];
+    pies.push(piechart("Calories", quantity * nutrition["calories"], calc.calories(), 720 + 275, 202.5, '#D8BAFF'));
+    pies.push(piechart("Fats", quantity * gramsToInt(nutrition["fat"]), calc.fats(), 170, 480, '#FFCD91'));
+    pies.push(piechart("Proteins", quantity * gramsToInt(nutrition["protein"]), calc.proteins(), 445, 480, '#FFA5A5'));
+    pies.push(piechart("Sugars", quantity * getSugar(nutrition["nutrients"]), calc.sugars(), 995, 480, '#C8EFED'));
+    pies.push(piechart("Carbohydrates", quantity * gramsToInt(nutrition["carbs"]), calc.carbs(), 720, 480, '#A8E2AD'));
+    pies.forEach(pie => {
+      pie.attr("opacity", state == 3 ? 1 : 0);
+    });
+  });
+
 function gramsToInt(grams) {
   return Number(grams.substr(0, grams.length - 1));
 }
@@ -594,6 +700,15 @@ function nextState(state) {
   return state;
 }
 
+function incrementQuantity(quantity) {
+  return quantity + 1;
+}
+
+function decrementQuantity(quantity) {
+  if (quantity > 1) return quantity - 1;
+  else return quantity;
+}
+
 function getSugar(nutrients) {
   var amount = 0;
   nutrients.forEach(nutrient => {
@@ -603,8 +718,9 @@ function getSugar(nutrients) {
 }
 
 function stat(type, food_value, cx, cy, color) {
+  d3.select(`stats-${type}`).remove();
   var svg = d3.select("#visualization"),
-    g = svg.append("g").attr("id", "stats");
+    g = svg.append("g").attr("id", `stats-${type}`);
 
   background = g.append('rect')
     .attr("rx", 15)
@@ -630,26 +746,26 @@ function stat(type, food_value, cx, cy, color) {
 function create_title(text, svg_name) {
   let svg = d3.select(svg_name),
     g = svg.append("g");
-  
+
   title = g.append("text")
-  .attr("x", 600)
-  .attr("y", 30)
-  .attr("dy", 0)
-  .attr("text-anchor", "middle")
-  .attr("font-weight", 200)
-  .attr("font-family", "Impact")
-  .style("font-size", "30px")
-  .attr("letter-spacing", "2px")
-  .text(text);
+    .attr("x", 600)
+    .attr("y", 30)
+    .attr("dy", 0)
+    .attr("text-anchor", "middle")
+    .attr("font-weight", 200)
+    .attr("font-family", "Impact")
+    .style("font-size", "30px")
+    .attr("letter-spacing", "2px")
+    .text(text);
 
   divider = g.append("line")
-  .attr("x1", 75)
-  .attr("x2", 1090)
-  .attr("y1", 55)
-  .attr("y2", 55)
-  .attr("stroke-width", 2)
-  .attr("stroke", "black")
-  .attr("stroke-dasharray", "8,8");
+    .attr("x1", 75)
+    .attr("x2", 1090)
+    .attr("y1", 55)
+    .attr("y2", 55)
+    .attr("stroke-width", 2)
+    .attr("stroke", "black")
+    .attr("stroke-dasharray", "8,8");
 
   return g;
 }
