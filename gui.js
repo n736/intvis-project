@@ -491,6 +491,9 @@ resturaunts.forEach(rest => {
   rest_g.on("click", () => {
     state = nextState(state);
     current_rest = rest_g.attr("id");
+    document.getElementById('resturaunt_image').src = "resturaunt_pics/" + current_rest + ".png";
+    document.getElementById('restaurant_name').innerHTML = current_rest;
+
     d3.select("#search").style("display", "block");
     go_back.style("display", "block")
 

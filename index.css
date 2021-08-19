@@ -20,7 +20,7 @@
 }
 
 #button_column.column {
-  width: 300px;
+  width: 75px;
 }
 
 #button {
@@ -50,10 +50,13 @@
 }
 
 #search_button {
-  width: 500px;
+  position: absolute;
+  left: 542.5px;
+  top: 195px;
+  width: 450px;
   height: 80px;
   background-color: rgb(159, 170, 235);
-  font-size: 30px;
+  font-size: 26px;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   border-radius: 60px;
   border-style: solid;
@@ -62,12 +65,56 @@
 }
 
 #search_input {
+  position: absolute;
+  top: 95px;
+  left: 617.5px;
   width: 300px;
-  height: 80px;
+  height: 60px;
   background-color: rgb(255, 253, 218);
   font-size: 32px;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  border-radius: 5px;
   border-style: solid;
   border-color: black;
   text-align: center;
+}
+
+.background {
+  z-index: -1;
+  position: absolute;
+  top: 52.5px;
+  left: 530px;
+  height: 255px;
+  width: 475px;
+  border-radius: 15px;
+  background-color: #fff;
+}
+
+.resturaunt_bckgrd {
+  z-index: -1;
+  position: absolute;
+  top: 52.5px;
+  left: 250px;
+  height: 255px;
+  width: 240px;
+  border-radius: 15px;
+  background-color: #fff;
+}
+
+.picture {
+  position: absolute;
+  top: 67.5px;
+  left: 270px;
+  height: 200px;
+  width: 200px;
+}
+
+.picture_text {
+  position: absolute;
+  text-anchor: middle;
+  top: 265px;
+  left: 340px;
+  font-size: 14px;
+  font-family: 'Lucida Sans';
+  font-weight: 800;
 }

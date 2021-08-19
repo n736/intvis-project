@@ -83,11 +83,14 @@
   </div>
 
   <div id="search" style="display: none;">
-    <center>
-      <input type="text" placeholder="(Food Name Here)" id="search_input" name="search_input"
-        onkeydown="this.style.width = Math.min( 750, Math.max( (this.value.length + 1) * 18 + 40, 300 ) ) + 'px';"><br><br>
-      <button id="search_button"><b>Click Me For Nutrition Facts</b></button>
-    </center>
+    <div class="resturaunt_bckgrd"></div>
+    <img id='resturaunt_image' class="picture">
+    <div class="background"></div>
+    <p id='restaurant_name' class="picture_text"></p>
+
+    <input type="text" placeholder="(Food Name Here)" id="search_input" name="search_input"
+      onkeydown="this.style.width = Math.min( 750, Math.max( (this.value.length + 1) * 18 + 40, 300 ) ) + 'px';"><br><br>
+    <button id="search_button"><b>Click Me For Nutrition Facts</b></button>
   </div>
 
   <script src="gui.js"></script>
