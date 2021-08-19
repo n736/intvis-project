@@ -436,7 +436,7 @@ var search_button = d3.select("#search_button")
     state = nextState(state);
 
     // search with current_rest and current_food for ID
-    /* d3.json(searchFood(current_rest, current_food, 1), (data) => {
+    d3.json(searchFood(current_rest, current_food, 1), (data) => {
       console.log(data);
       menuItems = data["menuItems"];
       if (menuItems.length < 1) return;
@@ -445,19 +445,21 @@ var search_button = d3.select("#search_button")
         d3.json(searchID(menuItems[0]["id"]), function (data) {
           //Create the Picture of the food
           let image = (data["images"] != null && data["images"].length > 0) ? data["images"][data["images"].length - 1] : (data["image"] != null ? data["image"] : null);
-          food_image = create_image(image, data["title"], 132.5, 60, false);
-          food_image.attr("opacity", (state == 2 || state == 3) ? 1 : 0);
-          
+          food_image = create_image(image, data["title"], 50 + 275, 75, false, false);
 
           console.log(data);
           nutrition = data["nutrition"];
 
           stats = [];
-          stats.push(stat("Calories", nutrition["calories"], 450, 150));
-          stats.push(stat("Fats", gramsToInt(nutrition["fat"]), 450, 200));
-          stats.push(stat("Proteins", gramsToInt(nutrition["protein"]), 450, 250));
-          stats.push(stat("Sugars", getSugar(nutrition["nutrients"]), 750, 250));
-          stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 750, 200));
+          stats.push(stat("Calories", nutrition["calories"], 325 + 275, 75, '#AA6BFF'));
+          stats.push(stat("Fats", gramsToInt(nutrition["fat"]), 325 + 275, 172.5, '#FFB45A'));
+          stats.push(stat("Proteins", gramsToInt(nutrition["protein"]), 325 + 275, 270, '#FF5959'));
+          stats.push(stat("Sugars", getSugar(nutrition["nutrients"]), 600 + 275, 172.5, '#99ECE8'));
+          stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 600 + 275, 270, '#6BE275'));
+
+          stats.forEach(statistic => {
+            statistic.attr("opacity", state == 2 ? 1 : 0);
+          })
         })
       } else {
         d3.json(searchFood(current_rest, current_food, 100), (data) => {
@@ -471,19 +473,21 @@ var search_button = d3.select("#search_button")
               d3.json(searchID(item["id"]), function (data) {
                 //Create the Picture of the food
                 let image = (data["images"] != null && data["images"].length > 0) ? data["images"][data["images"].length - 1] : (data["image"] != null ? data["image"] : null);
-                food_image = create_image(image, data["title"], 132.5, 60, false);
-                food_image.attr("opacity", (state == 2 || state == 3) ? 1 : 0);
+                food_image = create_image(image, data["title"], 50 + 275, 75, false, false);
 
                 console.log(data);
                 nutrition = data["nutrition"];
 
                 stats = [];
-                d3.select("#stats").remove();
-                stats.push(stat("Calories", nutrition["calories"], 450, 150));
-                stats.push(stat("Fats", gramsToInt(nutrition["fat"]), 450, 200));
-                stats.push(stat("Proteins", gramsToInt(nutrition["protein"]), 450, 250));
-                stats.push(stat("Sugars", getSugar(nutrition["nutrients"]), 750, 250));
-                stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 750, 200));
+                stats.push(stat("Calories", nutrition["calories"], 325 + 275, 75, '#AA6BFF'));
+                stats.push(stat("Fats", gramsToInt(nutrition["fat"]), 325 + 275, 172.5, '#FFB45A'));
+                stats.push(stat("Proteins", gramsToInt(nutrition["protein"]), 325 + 275, 270, '#FF5959'));
+                stats.push(stat("Sugars", getSugar(nutrition["nutrients"]), 600 + 275, 172.5, '#99ECE8'));
+                stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 600 + 275, 270, '#6BE275'));
+
+                stats.forEach(statistic => {
+                  statistic.attr("opacity", state == 2 ? 1 : 0);
+                })
               })
             }
           })
@@ -491,46 +495,48 @@ var search_button = d3.select("#search_button")
             d3.json(searchID(menuItems[0]["id"]), function (data) {
               //Create the Picture of the food
               let image = (data["images"] != null && data["images"].length > 0) ? data["images"][data["images"].length - 1] : (data["image"] != null ? data["image"] : null);
-              food_image = create_image(image, data["title"], 132.5, 60, false);
-              food_image.attr("opacity", (state == 2 || state == 3) ? 1 : 0);
+              food_image = create_image(image, data["title"], 50 + 275, 75, false, false);
 
               console.log(data);
               nutrition = data["nutrition"];
 
               stats = [];
-              d3.select("#stats").remove();
-              stats.push(stat("Calories", nutrition["calories"], 450, 150));
-              stats.push(stat("Fats", gramsToInt(nutrition["fat"]), 450, 200));
-              stats.push(stat("Proteins", gramsToInt(nutrition["protein"]), 450, 250));
-              stats.push(stat("Sugars", getSugar(nutrition["nutrients"]), 750, 250));
-              stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 750, 200));
+              stats.push(stat("Calories", nutrition["calories"], 325 + 275, 75, '#AA6BFF'));
+              stats.push(stat("Fats", gramsToInt(nutrition["fat"]), 325 + 275, 172.5, '#FFB45A'));
+              stats.push(stat("Proteins", gramsToInt(nutrition["protein"]), 325 + 275, 270, '#FF5959'));
+              stats.push(stat("Sugars", getSugar(nutrition["nutrients"]), 600 + 275, 172.5, '#99ECE8'));
+              stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 600 + 275, 270, '#6BE275'));
+
+              stats.forEach(statistic => {
+                statistic.attr("opacity", state == 2 ? 1 : 0);
+              })
             })
           }
         })
-      } 
-    // else {
-    //   // search all items for it
-    // }
-    // otherwise set id to -2 to break the while loop afterwards
+      }
+      // else {
+      //   // search all items for it
+      // }
+      // otherwise set id to -2 to break the while loop afterwards
 
-  }) */
+    })
     rest_image = create_image("resturaunt_pics/" + current_rest + ".png", current_rest, 50, 75, false, true);
     stats_title = create_title("Nutrition Facts", "#visualization")
 
-    nutrition = data["nutrition"];
+    // nutrition = data["nutrition"];
 
-    stats = [];
-    d3.select("#stats").remove();
+    // stats = [];
+    // d3.select("#stats").remove();
 
-    stats.push(stat("Calories", nutrition["calories"], 325 + 275, 75, '#AA6BFF'));
-    stats.push(stat("Fats", gramsToInt(nutrition["fat"]), 325 + 275, 172.5, '#FFB45A'));
-    stats.push(stat("Proteins", gramsToInt(nutrition["protein"]), 325 + 275, 270, '#FF5959'));
-    stats.push(stat("Sugars", getSugar(nutrition["nutrients"]), 600 + 275, 172.5, '#99ECE8'));
-    stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 600 + 275, 270, '#6BE275'));
+    // stats.push(stat("Calories", nutrition["calories"], 325 + 275, 75, '#AA6BFF'));
+    // stats.push(stat("Fats", gramsToInt(nutrition["fat"]), 325 + 275, 172.5, '#FFB45A'));
+    // stats.push(stat("Proteins", gramsToInt(nutrition["protein"]), 325 + 275, 270, '#FF5959'));
+    // stats.push(stat("Sugars", getSugar(nutrition["nutrients"]), 600 + 275, 172.5, '#99ECE8'));
+    // stats.push(stat("Carbohydrates", gramsToInt(nutrition["carbs"]), 600 + 275, 270, '#6BE275'));
 
-    stats.forEach(statistic => {
-      statistic.attr("opacity", state == 2 ? 1 : 0);
-    })
+    // stats.forEach(statistic => {
+    //   statistic.attr("opacity", state == 2 ? 1 : 0);
+    // })
 
     d3.select("#calc").style("display", state == 2 ? "block" : "none");
     d3.select("#search").style("display", state == 1 ? "block" : "none");
@@ -612,6 +618,8 @@ var see_my_stats = d3.select("#button")
     });
     d3.select("#calc").style("display", state == 2 ? "block" : "none");
     svg.attr("height", heights[state]);
+
+    d3.select("#quantityButtons").attr("opacity", 1);
   });
 
 var go_back = d3.select("#back_button")
@@ -640,9 +648,15 @@ var go_back = d3.select("#back_button")
 
     d3.select("#calc").style("display", state == 2 ? "block" : "none");
     svg.attr("height", heights[state]);
+
+    d3.select("#quantityButtons").attr("opacity", 0);
   });
 
-var quantityUp = svg.append("rect")
+var quantityButtons = svg.append("g")
+  .attr("id", "quantityButtons")
+  .attr("opacity", 0);
+var quantityUp = quantityButtons.append("rect")
+  .attr("id", "quantityUp")
   .attr("width", 75)
   .attr("height", 75)
   .attr("x", 500)
@@ -664,7 +678,8 @@ var quantityUp = svg.append("rect")
     });
   });
 
-var quantityDown = svg.append("rect")
+var quantityDown = quantityButtons.append("rect")
+  .attr("id", "quantityDown")
   .attr("width", 75)
   .attr("height", 75)
   .attr("x", 500)
