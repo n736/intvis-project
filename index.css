@@ -1,6 +1,9 @@
 .column {
   float: left;
-  width: 175px;
+  width: 235px;
+  font-size: large;
+  font-family: 'Lucida Sans';
+  font-weight:normal;
 }
 
 .back_column {
@@ -9,7 +12,7 @@
 }
 
 .row {
-  margin-left: 132.5px;
+  margin-left: 75px;
 }
 
 /* Clear floats after the columns */
@@ -20,16 +23,20 @@
 }
 
 #button_column.column {
-  width: 75px;
+  width: 5px;
 }
 
 #button {
+  position: absolute;
+  left: 750px;
+  top: 445px;
   width: 300px;
-  height: 80px;
-  background-color: rgb(118, 226, 118);
+  height: 100px;
+  background-color: rgb(192, 192, 192);
   font-size: 32px;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  border-radius: 69px;
+  color: rgb(46, 46, 46);
+  font-family: 'Lucida Sans';
+  border-radius: 5px;
   border-style: solid;
   border-color: black;
 }
@@ -117,4 +124,15 @@
   font-size: 14px;
   font-family: 'Lucida Sans';
   font-weight: 800;
+}
+
+.background_calc {
+  z-index: -1;
+  position: absolute;
+  top: 400px;
+  left: 50px;
+  height: 200px;
+  width: 1075px;
+  border-radius: 15px;
+  background-color: #fff;
 }
