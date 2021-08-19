@@ -436,7 +436,7 @@ var search_button = d3.select("#search_button")
     state = nextState(state);
 
     // search with current_rest and current_food for ID
-    d3.json(searchFood(current_rest, current_food, 1), (data) => {
+    /*d3.json(searchFood(current_rest, current_food, 1), (data) => {
       console.log(data);
       menuItems = data["menuItems"];
       if (menuItems.length < 1) return;
@@ -519,7 +519,7 @@ var search_button = d3.select("#search_button")
       // }
       // otherwise set id to -2 to break the while loop afterwards
 
-    })
+    })*/
     rest_image = create_image("resturaunt_pics/" + current_rest + ".png", current_rest, 50, 75, false, true);
     stats_title = create_title("Nutrition Facts", "#visualization")
 
@@ -604,11 +604,11 @@ var see_my_stats = d3.select("#button")
 
     state = nextState(state);
 
-    pies.push(piechart("Calories", quantity * nutrition["calories"], calc.calories(), 720 + 275, 202.5, '#D8BAFF'));
+    /*pies.push(piechart("Calories", quantity * nutrition["calories"], calc.calories(), 720 + 275, 202.5, '#D8BAFF'));
     pies.push(piechart("Fats", quantity * gramsToInt(nutrition["fat"]), calc.fats(), 170, 480, '#FFCD91'));
     pies.push(piechart("Proteins", quantity * gramsToInt(nutrition["protein"]), calc.proteins(), 445, 480, '#FFA5A5'));
     pies.push(piechart("Sugars", quantity * getSugar(nutrition["nutrients"]), calc.sugars(), 995, 480, '#C8EFED'));
-    pies.push(piechart("Carbohydrates", quantity * gramsToInt(nutrition["carbs"]), calc.carbs(), 720, 480, '#A8E2AD'));
+    pies.push(piechart("Carbohydrates", quantity * gramsToInt(nutrition["carbs"]), calc.carbs(), 720, 480, '#A8E2AD')); */
 
     pies.forEach(pie => {
       pie.attr("opacity", state == 3 ? 1 : 0);
@@ -620,6 +620,7 @@ var see_my_stats = d3.select("#button")
     svg.attr("height", heights[state]);
 
     d3.select("#quantityButtons").attr("opacity", 1);
+    d3.select("#MinusButton").attr("opacity", 1);
   });
 
 var go_back = d3.select("#back_button")
@@ -650,19 +651,66 @@ var go_back = d3.select("#back_button")
     svg.attr("height", heights[state]);
 
     d3.select("#quantityButtons").attr("opacity", 0);
+    d3.select("#MinusButton").attr("opacity", 0);
   });
 
 var quantityButtons = svg.append("g")
   .attr("id", "quantityButtons")
   .attr("opacity", 0);
-var quantityUp = quantityButtons.append("rect")
+quantity_background = quantityButtons.append("rect")
+  .attr("rx", 15)
+  .attr("ry", 15)
+  .attr('x', 600)
+  .attr('y', 75)
+  .attr('width', 240)
+  .attr('height', 255)
+  .attr('fill', '#FFFBCF');
+quantity_title = quantityButtons.append("text")
+  .attr("x", 660)
+  .attr("y", 125)
+  .attr("font-weight", 550)
+  .attr("font-family", "Arial")
+  .style("font-size", "30px")
+  .text("Quantity");
+quantity_divider = quantityButtons.append("line")
+  .attr("x1", 625).attr("y1", 145)
+  .attr("x2", 815).attr("y2", 145)
+  .attr("stroke-width", 0.25)
+  .attr("stroke", "black");
+quantity_visual = quantityButtons.append("text")
+  .attr("x", 720).attr("y", 230)
+  .attr("font-weight", 550)
+  .attr("font-family", "Arial")
+  .attr("text-anchor", "middle")
+  .style("font-size", "36px")
+  .text(quantity);
+quantityUp = quantityButtons.append("rect")
+  .attr("rx", 15)
+  .attr("ry", 15)
   .attr("id", "quantityUp")
-  .attr("width", 75)
-  .attr("height", 75)
-  .attr("x", 500)
-  .attr("y", 100)
+  .attr("width", 60)
+  .attr("height", 60)
+  .attr("x", 750)
+  .attr("y", 188)
+  .attr("fill", "#fff");
+quantityDown = quantityButtons.append("rect")
+  .attr("rx", 15)
+  .attr("ry", 15)
+  .attr("id", "quantityDown")
+  .attr("width", 60)
+  .attr("height", 60)
+  .attr("x", 630)
+  .attr("y", 188)
+  .attr("fill", "#fff");
+plus_img = quantityButtons.selectAll("image").data([0]).enter().append("svg:image")
+  .attr("href", "resturaunt_pics/plus.png")
+  .attr("width", 50)
+  .attr("height", 50)
+  .attr("x", 755)
+  .attr("y", 192.5)
   .on("click", () => {
     quantity = incrementQuantity(quantity);
+    quantity_visual.text(quantity);
 
     pies.forEach(pie => {
       pie.remove();
@@ -678,14 +726,18 @@ var quantityUp = quantityButtons.append("rect")
     });
   });
 
-var quantityDown = quantityButtons.append("rect")
-  .attr("id", "quantityDown")
-  .attr("width", 75)
-  .attr("height", 75)
-  .attr("x", 500)
-  .attr("y", 200)
+var MinusButton = svg.append("g")
+  .attr("id", "MinusButton")
+  .attr("opacity", 0);
+minus_img = MinusButton.selectAll("image").data([0]).enter().append("svg:image")
+  .attr("href", "resturaunt_pics/minus.png")
+  .attr("width", 40)
+  .attr("height", 40)
+  .attr("x", 640)
+  .attr("y", 197.5)
   .on("click", () => {
     quantity = decrementQuantity(quantity);
+    quantity_visual.text(quantity);
 
     pies.forEach(pie => {
       pie.remove();
