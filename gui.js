@@ -436,7 +436,7 @@ var search_button = d3.select("#search_button")
     state = nextState(state);
 
     // search with current_rest and current_food for ID
-    /*d3.json(searchFood(current_rest, current_food, 1), (data) => {
+    d3.json(searchFood(current_rest, current_food, 1), (data) => {
       console.log(data);
       menuItems = data["menuItems"];
       if (menuItems.length < 1) return;
@@ -519,7 +519,7 @@ var search_button = d3.select("#search_button")
       // }
       // otherwise set id to -2 to break the while loop afterwards
 
-    })*/
+    })
     rest_image = create_image("resturaunt_pics/" + current_rest + ".png", current_rest, 50, 75, false, true);
     stats_title = create_title("Nutrition Facts", "#visualization")
 
@@ -604,11 +604,11 @@ var see_my_stats = d3.select("#button")
 
     state = nextState(state);
 
-    /*pies.push(piechart("Calories", quantity * nutrition["calories"], calc.calories(), 720 + 275, 202.5, '#D8BAFF'));
+    pies.push(piechart("Calories", quantity * nutrition["calories"], calc.calories(), 720 + 275, 202.5, '#D8BAFF'));
     pies.push(piechart("Fats", quantity * gramsToInt(nutrition["fat"]), calc.fats(), 170, 480, '#FFCD91'));
     pies.push(piechart("Proteins", quantity * gramsToInt(nutrition["protein"]), calc.proteins(), 445, 480, '#FFA5A5'));
     pies.push(piechart("Sugars", quantity * getSugar(nutrition["nutrients"]), calc.sugars(), 995, 480, '#C8EFED'));
-    pies.push(piechart("Carbohydrates", quantity * gramsToInt(nutrition["carbs"]), calc.carbs(), 720, 480, '#A8E2AD')); */
+    pies.push(piechart("Carbohydrates", quantity * gramsToInt(nutrition["carbs"]), calc.carbs(), 720, 480, '#A8E2AD'));
 
     pies.forEach(pie => {
       pie.attr("opacity", state == 3 ? 1 : 0);
